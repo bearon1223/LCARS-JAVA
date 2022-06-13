@@ -2,6 +2,7 @@ package com.libgdx.lcars;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +17,7 @@ public class MainReadout extends Readout {
     private Panel navCenterPanel;
     private Panel navTopPanel;
     private Panel navBottomPanel;
+    private Sound click;
 
     public MainReadout(float x, float y, float w, float h) {
         super(x, y, w, h);
@@ -35,6 +37,8 @@ public class MainReadout extends Readout {
     }
 
     public void shapeRenderer(MyShapeRenderer shape, Sound click, boolean pMousePressed) {
+        this.click = click;
+        shapeRenderer(shape);
         switch (scene) {
             case 1:
                 mainSystemsPanel.render(shape, 0, false);
@@ -50,29 +54,59 @@ public class MainReadout extends Readout {
                 navBottomPanel.render(shape, 0, false);
                 break;
             default:
-                shape.setColor(255, 255, 255, 255);
-                shape.rect(x, y, scene * 10, 20);
+                rect(new Color(1, 1, 1, 1), x, y, scene * 10, 20);
                 break;
         }
     }
 
     @Override
-    public void batchRenderer(SpriteBatch batch, BitmapFont font) {
+    public void batchRenderer(SpriteBatch batch, BitmapFont font, boolean pMousePressed) {
+        super.batchRenderer(batch, font, pMousePressed);
         switch (scene) {
             case 0:
-                batch.draw(standby, x, y, w, h);
+                image(standby, x, y, w, h);
                 break;
             case 1:
                 mainSystemsPanel.textRenderer(batch, font);
                 break;
             case 11:
                 // Navigational Panel
+                int increment = 5;
                 font.getData().setScale(0.5f);
                 navSystemsPanel.textRenderer(batch, font);
                 font.getData().setScale(1);
                 navCenterPanel.textRenderer(batch, font);
                 navTopPanel.textRenderer(batch, font);
                 navBottomPanel.textRenderer(batch, font);
+                // if(circleButton(batch, click, 10, h - 110, 100, 100) == 0)
+                // System.out.println("d");
+                switch (circleButton(batch, click, 10, h - 110, 100, 100, pMousePressed)) {
+                    case 1:
+                        System.out.println("1");
+                        break;
+                    case 2:
+                        System.out.println("2");
+                        break;
+                    case 3:
+                        System.out.println("3");
+                        break;
+                    case 4:
+                        System.out.println("4");
+                        break;
+                    case 5:
+                        System.out.println("5");
+                        break;
+                    case 6:
+                        System.out.println("6");
+                        break;
+                    case 7:
+                        System.out.println("7");
+                        break;
+                    case 8:
+                        System.out.println("8");
+                        break;
+                }
+                circleButton(batch, click, 890 - x, 100, 100, 100, pMousePressed);
                 break;
         }
     }

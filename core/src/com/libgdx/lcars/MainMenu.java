@@ -23,7 +23,7 @@ public class MainMenu implements Screen {
     private Panel upperButtons = new Panel(1000 - 180, 600 - 50 - 113.25f, 180, 113.25f, 2, 3)
             .addNames(TextArrays.upperButtonsNames);
 
-    private Readout tReadout;
+    private TertiaryReadout tReadout;
     private AUXReadout aReadout;
     private MainReadout mReadout;
     private SecondaryReadout sReadout;
@@ -36,7 +36,7 @@ public class MainMenu implements Screen {
         camera.setToOrtho(false, 1000, 600);
         renderer = new MyShapeRenderer();
 
-        tReadout = new Readout(7, 600 - (141.65f + 151) - 125, 155, 120);
+        tReadout = new TertiaryReadout(7, 600 - (141.65f + 151) - 125, 155, 120);
         sReadout = new SecondaryReadout(390, 600 - 5 - 195, 1000 - 395 - 180, 195);
         aReadout = new AUXReadout(5, 600 - 141.652f + 5, mainSideMenu.x - 10, 141.651f - 10);
         mReadout = new MainReadout(midMenu.x, 5, 1000 - midMenu.x - 5, 600 - (201 + midMenu.size.y) - 5);
@@ -79,8 +79,8 @@ public class MainMenu implements Screen {
         statusButtonL.textRenderer(app.batch, app.font);
         upperButtons.textRenderer(app.batch, app.font);
 
-        mReadout.batchRenderer(app.batch, app.font);
-        tReadout.batchRenderer(app.batch, app.font);
+        mReadout.batchRenderer(app.batch, app.font, pMousePressed);
+        tReadout.batchRenderer(app.batch, app.font, pMousePressed);
         sReadout.render(app.batch);
         aReadout.render(app.batch);
         app.batch.end();

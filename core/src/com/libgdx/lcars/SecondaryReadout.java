@@ -13,7 +13,8 @@ public class SecondaryReadout extends Readout {
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(schematic, x, y, w, h);
+        image(schematic, x, y, w, h);
+        batchRenderer(batch, null, false);
     }
 
     @Override

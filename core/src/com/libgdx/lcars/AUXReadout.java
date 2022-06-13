@@ -16,8 +16,9 @@ public class AUXReadout extends Readout {
     }
 
     public void render(SpriteBatch renderer) {
-        renderer.draw(surroundTexture, x, y, w, h);
-        renderer.draw(standbyTexture, x + 15, y + 15, w - 30, h - 30);
+        image(surroundTexture, x, y, w, h);
+        image(standbyTexture, x + 15, y + 15, w - 30, h - 30);
+        batchRenderer(renderer, null, false);
     }
 
     @Override
