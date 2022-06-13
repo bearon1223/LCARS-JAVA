@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.libgdx.lcars.Readout.AUXReadout;
+import com.libgdx.lcars.Readout.MainReadout;
+import com.libgdx.lcars.Readout.SecondaryReadout;
+import com.libgdx.lcars.Readout.TertiaryReadout;
 
 public class MainMenu implements Screen {
     final LCARS app;

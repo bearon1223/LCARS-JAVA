@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.libgdx.lcars.Readout.Readout;
 
 public class Panel {
     public float x, y;
@@ -71,7 +72,7 @@ public class Panel {
         return false;
     }
 
-    void clickArray(Sound clickSound, Readout r, int[][] array, boolean pMousePressed) {
+    public void clickArray(Sound clickSound, Readout r, int[][] array, boolean pMousePressed) {
         for (int i = 0; i < panelCount.x; i++) {
             for (int j = 0; j < panelCount.y; j++) {
                 if (Button(clickSound, new Vector2(i, j), pMousePressed)) {
@@ -81,7 +82,7 @@ public class Panel {
         }
     }
 
-    void textRenderer(SpriteBatch batch, BitmapFont font) {
+    public void textRenderer(SpriteBatch batch, BitmapFont font) {
         Vector2 rectSize = new Vector2((size.x) / panelCount.x, (size.y) / panelCount.y);
         float offset = rectSize.y / 1.5f;
         for (int i = 0; i < panelCount.x; i++) {
@@ -93,7 +94,7 @@ public class Panel {
         }
     }
 
-    void render(MyShapeRenderer renderer, int round, boolean isReversed) {
+    public void render(MyShapeRenderer renderer, int round, boolean isReversed) {
         int offset = 5;
         Vector2 rectSize = new Vector2((size.x) / panelCount.x, (size.y) / panelCount.y);
         for (int i = 0; i < panelCount.x; i++) {

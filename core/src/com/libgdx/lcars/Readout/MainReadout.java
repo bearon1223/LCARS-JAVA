@@ -1,4 +1,4 @@
-package com.libgdx.lcars;
+package com.libgdx.lcars.Readout;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.libgdx.lcars.MyShapeRenderer;
+import com.libgdx.lcars.Panel;
+import com.libgdx.lcars.TextArrays;
 
 public class MainReadout extends Readout {
     private Texture standby;
@@ -71,7 +74,7 @@ public class MainReadout extends Readout {
                 break;
             case 11:
                 // Navigational Panel
-                int increment = 5;
+                // int increment = 5;
                 font.getData().setScale(0.5f);
                 navSystemsPanel.textRenderer(batch, font);
                 font.getData().setScale(1);

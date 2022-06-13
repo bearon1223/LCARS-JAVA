@@ -1,8 +1,9 @@
-package com.libgdx.lcars;
+package com.libgdx.lcars.Readout;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.libgdx.lcars.Timer;
 
 public class TertiaryReadout extends Readout {
     private Timer t = new Timer(2);

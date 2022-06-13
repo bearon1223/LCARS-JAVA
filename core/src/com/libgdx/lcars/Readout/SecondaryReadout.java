@@ -1,4 +1,4 @@
-package com.libgdx.lcars;
+package com.libgdx.lcars.Readout;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

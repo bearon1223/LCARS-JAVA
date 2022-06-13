@@ -2,7 +2,7 @@ package com.libgdx.lcars;
 
 import com.badlogic.gdx.math.MathUtils;
 
-final class TextArrays {
+public final class TextArrays {
         public static final String[][] smallSettingsPanelNames = {
                         { "LCARS", generateRandomString() },
                         { "LOCK", "SYS INFO" },

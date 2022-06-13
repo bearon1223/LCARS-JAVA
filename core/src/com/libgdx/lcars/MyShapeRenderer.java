@@ -7,6 +7,7 @@ public class MyShapeRenderer extends ShapeRenderer {
     /*
      * Maps the color values from standard 0-255 to libgdx's 0-1
      */
+    
     @Override
     public void setColor(float r, float g, float b, float a) {
         super.setColor(map(0, 255, 0, 1, r), map(0, 255, 0, 1, g), map(0, 255, 0, 1, b), map(0, 255, 0, 1, a));

@@ -1,4 +1,4 @@
-package com.libgdx.lcars;
+package com.libgdx.lcars.Readout;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -8,14 +8,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.libgdx.lcars.MyShapeRenderer;
 
 public class Readout {
-    protected float x, y, w, h;
-    protected int scene;
+    public float x, y, w, h;
+    public int scene;
     protected boolean pMousePressed = false;
 
     private Texture circleButton;
-    private Texture test;
+    // private Texture test;
     private Array<RectHolder> rectCoordinates;
     private Array<TextureHolder> textureHolder;
 
@@ -26,7 +27,7 @@ public class Readout {
         this.h = h;
         scene = 0;
         circleButton = new Texture(Gdx.files.internal("Circle Button.png"));
-        test = new Texture(Gdx.files.internal("Tactical Display Template.png"));
+        // test = new Texture(Gdx.files.internal("Tactical Display Template.png"));
         rectCoordinates = new Array<RectHolder>();
         textureHolder = new Array<TextureHolder>();
     }
