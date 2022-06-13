@@ -19,6 +19,7 @@ public class Readout {
     // private Texture test;
     private Array<RectHolder> rectCoordinates;
     private Array<TextureHolder> textureHolder;
+    private Array<TextHolder> textHolder;
 
     public Readout(float x, float y, float w, float h) {
         this.x = x;
@@ -30,6 +31,7 @@ public class Readout {
         // test = new Texture(Gdx.files.internal("Tactical Display Template.png"));
         rectCoordinates = new Array<RectHolder>();
         textureHolder = new Array<TextureHolder>();
+        textHolder = new Array<TextHolder>();
     }
 
     protected void rect(float x, float y, float w, float h, float r) {
@@ -50,6 +52,26 @@ public class Readout {
 
     protected void image(Texture texture, float x, float y, float w, float h) {
         textureHolder.add(new TextureHolder(texture, x, y, w, h));
+    }
+
+    protected void displayText(Color c, String txt, float x, float y, float w, int hlign, float scale) {
+        textHolder.add(new TextHolder(c, txt, this.x + x, this.y + y, w, hlign, scale));
+    }
+
+    protected void displayText(Color c, String txt, float x, float y) {
+        displayText(c, txt, x, y, w, -1, 1);
+    }
+
+    protected void displayText(Color c, String txt, float x, float y, float scale) {
+        displayText(c, txt, x, y, w, -1, scale);
+    }
+
+    protected void displayText(String txt, float x, float y) {
+        displayText(Color.WHITE, txt, x, y);
+    }
+
+    protected void displayText(String txt, float x, float y, float scale) {
+        displayText(Color.WHITE, txt, x, y, scale);
     }
 
     protected int circleButton(SpriteBatch batch, Sound click, float x, float y, float w, float h,
@@ -107,7 +129,13 @@ public class Readout {
         for (TextureHolder tex : textureHolder) {
             batch.draw(tex.texture, tex.x, tex.y, tex.w, tex.h);
         }
+        for (TextHolder text : textHolder) {
+            font.getData().setScale(text.scale);
+            font.setColor(text.c);
+            font.draw(batch, text.txt, text.x, text.y, text.w, text.hlign, true);
+        }
         textureHolder = new Array<TextureHolder>();
+        textHolder = new Array<TextHolder>();
     }
 
     // rect(x + w/4, y, w - w/4, h, 2);

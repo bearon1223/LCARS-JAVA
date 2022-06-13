@@ -32,8 +32,8 @@ public class MainReadout extends Readout {
 
         mainSystemsPanel.rename("Navigation", 5, 0);
         mainSystemsPanel.rename("Tactical", 5, 1);
-        
-        chart = new Starchart(x+10, h-310);
+
+        chart = new Starchart(x + 10, h - 310);
 
         // tD = new TacticalDisplay(x + 10, y + 150);
         navSystemsPanel = new Panel(this, 340, h - 150 - 150, 150, 150, 3, 6);
@@ -79,16 +79,13 @@ public class MainReadout extends Readout {
                 break;
             case 11:
                 // Navigational Panel
-                // int increment = 5;
-                font.getData().setScale(0.5f);
-                navSystemsPanel.textRenderer(batch, font);
-                font.getData().setScale(1);
+                int increment = 5;
+                navSystemsPanel.textRenderer(batch, font, 0.5f);
                 navCenterPanel.textRenderer(batch, font);
                 navTopPanel.textRenderer(batch, font);
                 navBottomPanel.textRenderer(batch, font);
 
                 chart.batchRenderer(batch, font, pMousePressed);
-                // System.out.println("d");
                 switch (circleButton(batch, click, 10, h - 110, 100, 100, pMousePressed)) {
                     case 1:
                         System.out.println("1");
@@ -103,25 +100,40 @@ public class MainReadout extends Readout {
                         System.out.println("4");
                         break;
                     case 5:
-                        System.out.println("5");
+                        chart.changePointPos(new Vector2(0, -increment));
                         break;
                     case 6:
-                        System.out.println("6");
+                        chart.changePointPos(new Vector2(0, increment));
                         break;
                     case 7:
-                        System.out.println("7");
+                        chart.changePointPos(new Vector2(-increment, 0));
                         break;
                     case 8:
-                        System.out.println("8");
+                        chart.changePointPos(new Vector2(increment, 0));
                         break;
+                }
+
+                if (navTopPanel.Button(click, new Vector2(0, 0), pMousePressed)) {
+                    chart.scene = 0;
+                } else if (navTopPanel.Button(click, new Vector2(1, 0), pMousePressed)) {
+                    chart.scene = 1;
+                } else if (navTopPanel.Button(click, new Vector2(2, 0), pMousePressed)) {
+                    chart.scene = 2;
+                } else if (navTopPanel.Button(click, new Vector2(3, 0), pMousePressed)) {
+                    chart.scene = 3;
+                } else if (navTopPanel.Button(click, new Vector2(4, 0), pMousePressed)) {
+                    // chart.selected = new Vector3(coordinates.x, coordinates.y, coordinates.z);
+                    // chart.selectedSector = chart.convertIndexToVector(coordinates.x);
+                    // chart.scene = 3;
                 }
                 circleButton(batch, click, 890 - x, 100, 100, 100, pMousePressed);
                 break;
         }
     }
 
-    public void seperateRender(SpriteBatch batch, BitmapFont font, boolean pMousePressed, MyShapeRenderer shape, Sound click){
-        
+    public void seperateRender(SpriteBatch batch, BitmapFont font, boolean pMousePressed, MyShapeRenderer shape,
+            Sound click) {
+
     }
 
     @Override

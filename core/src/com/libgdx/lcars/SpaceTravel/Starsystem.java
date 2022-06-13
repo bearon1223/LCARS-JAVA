@@ -58,18 +58,7 @@ public class Starsystem {
 
     public void renderPlanets(MyShapeRenderer renderer, float yCoord) {
         chooseColor(renderer);
-        // noStroke();
-        // mapArc(410, yCoord, r * 3.333, r * 3.333, -HALF_PI, HALF_PI);
-        // fill(255, 255, 0);
-        // noFill();
-        // stroke(255);
-        // mapArc(410, yCoord, 80, 80, -HALF_PI, HALF_PI);
-        // mapArc(410, yCoord, 160, 160, -HALF_PI, HALF_PI);
-        // if (planetAmount >= 3)
-        // mapArc(410, yCoord, 260, 260, -HALF_PI, HALF_PI);
-        // if (planetAmount >= 4)
-        // mapArc(410, yCoord, 180 * 2, 180 * 2, -HALF_PI, HALF_PI);
-        // noStroke();
+        renderer.arc(410, yCoord, r * 2.133f, -90, 180, 10);
         for (int i = 0; i < planetAmount; i++) {
             p[i].render(renderer, yCoord);
         }

@@ -8,39 +8,47 @@ import com.libgdx.lcars.ship.Ship;
 
 public class Planet {
     public int size;
-    int id;
-    Ship[] ship;
+    private int id;
+    private Ship[] ship;
+    public String name;
 
-    public Planet(int id, int size) {
+    public Planet(int id, int size, String name) {
         this.size = size;
         this.id = id;
+        this.name = name;
     }
 
     public Planet(int id) {
-        this(id, MathUtils.random(15, 23));
+        this(id, MathUtils.random(15, 23), PlanetNames.randomName[(int) (MathUtils.random(0, PlanetNames.randomName.length))]);
     }
 
     public void render(MyShapeRenderer renderer, float yCoord) {
-        if (size < 20) renderer.setColor(Color.valueOf("#AFAFAFFF"));
-        else if (size < 30) renderer.setColor(Color.valueOf("#35DCEDFF"));
-        else renderer.setColor(Color.valueOf("#F5D18FFF"));
+        if (size < 20)
+            renderer.setColor(Color.valueOf("#AFAFAFFF"));
+        else if (size < 30)
+            renderer.setColor(Color.valueOf("#35DCEDFF"));
+        else
+            renderer.setColor(Color.valueOf("#F5D18FFF"));
         // noStroke();
         if (id == 0)
-            renderer.ellipse(450, yCoord, size, size);
+            renderer.ellipse(450, yCoord - size / 2, size, size);
         if (id == 1)
-            renderer.ellipse(490, yCoord, size, size);
+            renderer.ellipse(490, yCoord - size / 2, size, size);
         if (id == 2)
-            renderer.ellipse(540, yCoord, size, size);
+            renderer.ellipse(540, yCoord - size / 2, size, size);
         if (id == 3)
-            renderer.ellipse(590, yCoord, size, size);
+            renderer.ellipse(590, yCoord - size / 2, size, size);
     }
 
     public void renderPlanetSystem(MyShapeRenderer renderer, Vector2 tDloc, Vector2 tDsize, float yCoord) {
-        if (size < 20) renderer.setColor(Color.valueOf("#AFAFAFFF"));
-        else if (size < 30) renderer.setColor(Color.valueOf("#35DCEDFF"));
-        else renderer.setColor(Color.valueOf("#F5D18FFF"));
-        // noStroke();
-        renderer.ellipse(tDloc.x + tDsize.x / 2, yCoord, size * 2, size * 2);
+        if (size < 20)
+            renderer.setColor(Color.valueOf("#AFAFAFFF"));
+        else if (size < 30)
+            renderer.setColor(Color.valueOf("#35DCEDFF"));
+        else
+            renderer.setColor(Color.valueOf("#F5D18FFF"));
+            
+        renderer.ellipse((tDloc.x + tDsize.x / 2) - (size * 2), yCoord - (size * 2), size * 4, size * 4);
 
         // fill(255);
         // mapEllipse(map(shipTest.loc.y, 0, 100, tDloc.x, tDloc.x+tDsize.x),

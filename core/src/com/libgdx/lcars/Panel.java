@@ -49,7 +49,7 @@ public class Panel {
         return this;
     }
 
-    public void setTextSize(BitmapFont font, float scaleXY){
+    public void setTextSize(BitmapFont font, float scaleXY) {
         font.getData().setScale(scaleXY);
     }
 
@@ -82,9 +82,10 @@ public class Panel {
         }
     }
 
-    public void textRenderer(SpriteBatch batch, BitmapFont font) {
+    public void textRenderer(SpriteBatch batch, BitmapFont font, float scale) {
         Vector2 rectSize = new Vector2((size.x) / panelCount.x, (size.y) / panelCount.y);
         float offset = rectSize.y / 1.5f;
+        font.getData().setScale(scale);
         for (int i = 0; i < panelCount.x; i++) {
             for (int j = 0; j < panelCount.y; j++) {
                 font.draw(batch, names[(int) ((panelCount.y - 1) - j)][i], (float) x + i * rectSize.x,
@@ -92,6 +93,10 @@ public class Panel {
                         rectSize.x - 5, 1, true);
             }
         }
+    }
+
+    public void textRenderer(SpriteBatch batch, BitmapFont font){
+        textRenderer(batch, font, 1);
     }
 
     public void render(MyShapeRenderer renderer, int round, boolean isReversed) {
@@ -120,7 +125,7 @@ public class Panel {
                     }
                 } else if (round == 2) {
                     renderer.roundedRect((float) x + i * rectSize.x, (float) y + j * rectSize.y, rectSize.x - offset,
-                            rectSize.y - offset, (rectSize.y - offset)/2);
+                            rectSize.y - offset, (rectSize.y - offset) / 2);
                 }
             }
         }

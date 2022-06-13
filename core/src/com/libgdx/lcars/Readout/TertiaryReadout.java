@@ -1,5 +1,6 @@
 package com.libgdx.lcars.Readout;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -37,15 +38,18 @@ public class TertiaryReadout extends Readout {
     @Override
     public void batchRenderer(SpriteBatch batch, BitmapFont font, boolean pMousePressed) {
         font.setColor(1, 1, 1, 1);
+        Color c = new Color();
         if (t.countTimer())
             resetDefaultReadout();
         for (int i = 0; i < s.length; i++) {
             float offset = (2.5f * w / h * 12);
             if (Math.floor(t.getTime(false)) == i)
-                font.setColor(1, MathUtils.map(0, 255, 0, 1, 124), MathUtils.map(0, 255, 0, 1, 16), 1);
+                 c = new Color(1, MathUtils.map(0, 255, 0, 1, 124), MathUtils.map(0, 255, 0, 1, 16), 1);
             else
-                font.setColor(MathUtils.map(0, 255, 0, 1, 106), MathUtils.map(0, 255, 0, 1, 88), 1, 1);
-            font.draw(batch, String.valueOf(s[i]), x, y + h - i * offset - 2, w, -1, true);
+                c = new Color(MathUtils.map(0, 255, 0, 1, 106), MathUtils.map(0, 255, 0, 1, 88), 1, 1);
+            // font.draw(batch, String.valueOf(s[i]), x, y + h - i * offset - 2, w, -1, true);
+            displayText(c, String.valueOf(s[i]), 0, h-i * offset - 2, w, -1, 1);
         }
+        super.batchRenderer(batch, font, pMousePressed);
     }
 }

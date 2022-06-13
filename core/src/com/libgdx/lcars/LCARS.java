@@ -23,6 +23,7 @@ public class LCARS extends Game {
 	@Override
 	public void render() {
 		super.render();
+		// System.out.println(Gdx.graphics.getFramesPerSecond());
 	}
 
 	@Override

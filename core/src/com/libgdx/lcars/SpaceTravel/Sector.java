@@ -6,7 +6,7 @@ import com.libgdx.lcars.MyShapeRenderer;
 import com.libgdx.lcars.Readout.Starchart;
 
 public class Sector {
-    public Starsystem[] s;
+    private Starsystem[] s;
     public int id;
     public int systemAmount;
     public Vector2 tacticalDisplayLoc, arrayID;

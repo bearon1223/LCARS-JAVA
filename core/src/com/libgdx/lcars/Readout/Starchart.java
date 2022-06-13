@@ -60,7 +60,7 @@ public class Starchart extends Readout {
         return (vector.x > x && vector.y > y && vector.x < x + w && vector.y < y + h);
     }
 
-    Vector3 convertIndexToVector(float index) {
+    protected Vector3 convertIndexToVector(float index) {
         Vector3 finalConversion = new Vector3(69, 69, 69);
         if (index <= 4)
             finalConversion = new Vector3(index, 0, 0);
@@ -75,17 +75,15 @@ public class Starchart extends Readout {
         return finalConversion;
     }
 
-    void target(float x, float y, float size) {
-        // stroke(#FFAD29);
-        // strokeWeight(3);
-        // drawLine(x-size, y, x+size, y);
-        // drawLine(x, y-size, x, y+size);
-        // strokeWeight(1);
-        // stroke(255);
+    private void target(MyShapeRenderer shape, float x, float y, float size) {
+        shape.rectLine(this.x + (x - size), this.y + (y), this.x + (x + size), this.y + (y), 3,
+                Color.valueOf("#FFAD29FF"), Color.valueOf("#FFAD29FF"));
+        shape.rectLine(this.x + (x), this.y + (y - size), this.x + (x), this.y + (y + size), 3,
+                Color.valueOf("#FFAD29FF"), Color.valueOf("#FFAD29FF"));
     }
 
-    void systemMap(MyShapeRenderer renderer) {
-        float yCoord = y + y / 2;
+    private void systemMap(MyShapeRenderer renderer) {
+        float yCoord = y + h / 2;
         s[(int) selectedSector.x][(int) selectedSector.y].getSystem((int) Math.floor(selected.y))
                 .renderPlanets(renderer, yCoord);
 
@@ -107,22 +105,20 @@ public class Starchart extends Readout {
         }
     }
 
-    void systemSelect(MyShapeRenderer renderer, Vector2 index) {
-        // textAlign(LEFT, TOP);
-        // displayText("Selected Sector: " + floor(selected.x + 1) + ", System: " +
-        // floor(selected.y + 1), 30, 0);
-        // textAlign(RIGHT, BOTTOM);
+    private void systemSelect(MyShapeRenderer renderer, Vector2 index) {
+        displayText("Selected Sector: " + Math.floor(selected.x + 1) + ", System: " + Math.floor(selected.y + 1), 30, h,
+                0.7f);
         Sector sector = s[(int) index.x][(int) index.y];
         sector.renderSector(renderer);
         for (int i = 0; i < sector.systemAmount; i++) {
             if (isClicked && within(this, targetingPointLoc, sector.getSystem(i).loc.x, sector.getSystem(i).loc.y,
-                    sector.getSystem(i).r)) {
+                    sector.getSystem(i).r * 2)) {
                 selected.y = i;
             }
         }
     }
 
-    void sectorMap(MyShapeRenderer renderer) {
+    private void sectorMap(MyShapeRenderer renderer) {
         int amount = 5;
         int index = 0;
         for (int i = 0; i <= amount; i++) {
@@ -173,7 +169,7 @@ public class Starchart extends Readout {
         }
     }
 
-    void changePointPos(Vector2 direction) {
+    protected void changePointPos(Vector2 direction) {
         if (within(new Vector2(targetingPointLoc.x + direction.x, targetingPointLoc.y + direction.y), 0f, 0f,
                 imageSize.x,
                 imageSize.y)) {
@@ -190,27 +186,30 @@ public class Starchart extends Readout {
         switch (scene) {
             case 0:
                 int index = 0;
+                font.getData().setScale(0.6f);
                 for (int j = 0; j < amount - 1; j++) {
                     for (int i = 0; i < amount; i++) {
                         Vector2 offset = new Vector2(40, 40);
                         font.setColor(255, 255, 255, 255);
                         // textSize(10);
-                        font.draw(batch, String.valueOf(index + 1), x + i * offset.x, h-(j * offset.y)+offset.y, offset.x, 0,
+                        font.draw(batch, String.valueOf(index + 1), x + i * offset.x - 5,
+                                (j * offset.y) + (offset.y * 2.3f),
+                                offset.x, 0,
                                 true);
                         index++;
                     }
                 }
-                rect(Color.BLACK, 0, h-10, w, 20);
-                // textAlign(LEFT, TOP);
-                // batch.setColor(Color.WHITE);
-                font.setColor(Color.WHITE);
-                font.draw(batch, "Selected Sector: " + Math.floor(selected.x + 1), x+30, y+h);
-                // textAlign(RIGHT, BOTTOM);
+                // font.getData().setScale(1);
+                rect(Color.BLACK, 0, h - 10, w, 20);
+                // font.setColor(Color.WHITE);
+                // font.draw(batch, "Selected Sector: " + Math.floor(selected.x + 1), x + 30, y
+                // + h);
+                displayText(Color.WHITE, "Selected Sector: " + Math.floor(selected.x + 1), 30, h, 0.7f);
                 break;
         }
     }
 
-    void shapeRenderer(MyShapeRenderer renderer, Sound click, Panel selectionPanel, boolean pMousePressed) {
+    public void shapeRenderer(MyShapeRenderer renderer, Sound click, Panel selectionPanel, boolean pMousePressed) {
         // textSize(13);
         // fill(255);
         if (selectionPanel.Button(click, new Vector2(5, 0), pMousePressed)) {
@@ -225,35 +224,32 @@ public class Starchart extends Readout {
                 break;
             case 2:
                 systemMap(renderer);
-                // renderer.setColor(0, 0, 0, 0);
-                // rect(0, -100, w, 110);
-                // rect(0, h - 10, h, 2000);
-                // fill(255);
-                // textAlign(LEFT, TOP);
-                // textSize(13);
-                // displayText("Selected Sector: " + floor(selected.x + 1) + ", System: " +
-                // floor(selected.y + 1)
-                // + ", \nPlanet: " + floor(selected.z + 1), 30, 0);
-                // textAlign(RIGHT, BOTTOM);
+                displayText("Selected Sector: " + Math.floor(selected.x + 1) + ", System: " + Math.floor(selected.y + 1)
+                        + ", \nPlanet: " + Math.floor(selected.z + 1) + ", Name: "
+                        + s[(int) selectedSector.x][(int) selectedSector.y].getSystem((int) selected.y)
+                                .getPlanet((int) selected.z).name,
+                        30, h - 0.7f, 0.7f);
                 break;
             case 3:
                 s[(int) selectedSector.x][(int) selectedSector.y].getSystem((int) selected.y)
                         .getPlanet((int) selected.z)
-                        .renderPlanetSystem(renderer, new Vector2(x, y), new Vector2(w, h), y + y / 2);
+                        .renderPlanetSystem(renderer, new Vector2(x, y), new Vector2(w, h), (float) (y + h / 2));
 
                 // fill(255);
                 // textAlign(LEFT, TOP);
                 // textSize(13);
-                // text("Sector: " + floor(selected.x + 1) + ", System: " + floor(selected.y +
-                // 1) + ", Planet: "
-                // + floor(selected.z + 1), 30, 0);
+                displayText("Sector: " + Math.floor(selected.x + 1) + ", System: " + Math.floor(selected.y + 1)
+                        + ", \nPlanet: " + Math.floor(selected.z + 1) + ", Name: "
+                        + s[(int) selectedSector.x][(int) selectedSector.y].getSystem((int) selected.y)
+                                .getPlanet((int) selected.z).name,
+                        30, h - 0.7f);
                 // textAlign(RIGHT, BOTTOM);
                 break;
             default:
                 rect(0, 0, w, h);
         }
         if (scene != 3)
-            target(targetingPointLoc.x, targetingPointLoc.y, 5);
+            target(renderer, targetingPointLoc.x, targetingPointLoc.y, 5);
         // noStroke();
         rect(Color.BLACK, -2, -2, 12, 175);
         rect(Color.BLACK, 218, 0, 10, 173);
@@ -261,7 +257,7 @@ public class Starchart extends Readout {
         isClicked = false;
     }
 
-    Vector2[] randomSysCoords(int amount) {
+    private Vector2[] randomSysCoords(int amount) {
         Vector2[] r = new Vector2[amount];
         for (int i = 0; i < amount; i++) {
             r[i] = new Vector2(MathUtils.random(limits.x, limits.y), MathUtils.random(limits.z, limits.w));
