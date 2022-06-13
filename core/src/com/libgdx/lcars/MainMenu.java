@@ -56,7 +56,7 @@ public class MainMenu implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
         camera.update();
-
+        // try {
         renderer.setProjectionMatrix(camera.combined);
         renderer.begin(ShapeType.Filled);
         mainSideMenu.render(renderer, 0, false);
@@ -89,7 +89,8 @@ public class MainMenu implements Screen {
         aReadout.render(app.batch);
         app.batch.end();
 
-        mReadout.seperateRender(app.batch, app.font, pMousePressed, renderer, app.click);
+        // mReadout.seperateRender(app.batch, app.font, pMousePressed, renderer,
+        // app.click);
 
         if (upperButtons.Button(app.click, new Vector2(0, 2), pMousePressed)) {
             mReadout.scene = 0;
@@ -106,6 +107,9 @@ public class MainMenu implements Screen {
         mainSideMenu.clickArray(app.click, mReadout, TextArrays.mainSideMenuClickID, pMousePressed);
 
         pMousePressed = Gdx.input.isTouched();
+        // } catch (ArrayIndexOutOfBoundsException e) {
+        // e.printStackTrace();
+        // }
     }
 
     @Override
@@ -136,5 +140,4 @@ public class MainMenu implements Screen {
         sReadout.dispose();
         aReadout.dispose();
     }
-
 }

@@ -115,6 +115,8 @@ public class Starchart extends Readout {
                     sector.getSystem(i).r * 2)) {
                 selected.y = i;
             }
+            // displayText("System: "+ (i + 1), sector.getSystem(i).loc.x-this.x,
+            // sector.getSystem(i).loc.y-this.y, 0.5f);
         }
     }
 
@@ -148,9 +150,6 @@ public class Starchart extends Readout {
             for (int i = 0; i < amount; i++) {
                 Vector2 offset = new Vector2(40, 40);
                 s[i][j].renderTiny(renderer, this, new Vector2(40, 40));
-                // fill(255);
-                // textSize(map(10, 0, 1600, 0, width + height));
-                // text(str(index + 1), x + i * offset.x, y + j * offset.y, offset.x, offset.y);
                 if (within(this, targetingPointLoc, x + i * offset.x, y + j * offset.y, offset.x, offset.y)) {
                     with = index;
                     temp = new Vector2(i, j);
@@ -206,6 +205,12 @@ public class Starchart extends Readout {
                 // + h);
                 displayText(Color.WHITE, "Selected Sector: " + Math.floor(selected.x + 1), 30, h, 0.7f);
                 break;
+            case 1:
+                Sector sector = s[(int) selectedSector.x][(int) selectedSector.y];
+                for (int i = 0; i < sector.systemAmount; i++) {
+                    font.draw(batch, "System: "+ (i + 1), sector.getSystem(i).loc.x, sector.getSystem(i).loc.y);
+                }
+                break;
         }
     }
 
@@ -242,7 +247,7 @@ public class Starchart extends Readout {
                         + ", \nPlanet: " + Math.floor(selected.z + 1) + ", Name: "
                         + s[(int) selectedSector.x][(int) selectedSector.y].getSystem((int) selected.y)
                                 .getPlanet((int) selected.z).name,
-                        30, h - 0.7f);
+                        30, h - 0.7f, 0.7f);
                 // textAlign(RIGHT, BOTTOM);
                 break;
             default:

@@ -19,7 +19,7 @@ public class Planet {
     }
 
     public Planet(int id) {
-        this(id, MathUtils.random(15, 23), PlanetNames.randomName[(int) (MathUtils.random(0, PlanetNames.randomName.length))]);
+        this(id, MathUtils.random(15, 23), PlanetNames.randomName[(int) (MathUtils.random(0, PlanetNames.randomName.length-1))]);
     }
 
     public void render(MyShapeRenderer renderer, float yCoord) {

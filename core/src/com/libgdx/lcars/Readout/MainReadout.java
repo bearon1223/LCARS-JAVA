@@ -87,18 +87,6 @@ public class MainReadout extends Readout {
 
                 chart.batchRenderer(batch, font, pMousePressed);
                 switch (circleButton(batch, click, 10, h - 110, 100, 100, pMousePressed)) {
-                    case 1:
-                        System.out.println("1");
-                        break;
-                    case 2:
-                        System.out.println("2");
-                        break;
-                    case 3:
-                        System.out.println("3");
-                        break;
-                    case 4:
-                        System.out.println("4");
-                        break;
                     case 5:
                         chart.changePointPos(new Vector2(0, -increment));
                         break;
