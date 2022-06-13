@@ -51,9 +51,9 @@ public class Starsystem {
         // random(10, w-10), random(30, h-40);w=228, h=173
         // if(arrayID.x==1 && arrayID.y == 1) println(loc.x);
         chooseColor(renderer);
-        renderer.ellipse(t.x + ((offset.x) * (arrayID.x)) + map(loc.x - t.x, 0, t.limits.y, 3, 37),
-                t.y + ((offset.y) * (arrayID.y)) + map(loc.y - t.y, 0, t.limits.w, 3, 37),
-                map(r, 0, 20, 0, 5), map(r, 0, 20, 0, 5));
+        renderer.ellipse(t.x + ((offset.x) * (arrayID.x)) + map(0, t.limits.y, 3, 37, loc.x - t.x),
+                t.y + ((offset.y) * (arrayID.y)) + map(0, t.limits.w, 3, 37, loc.y - t.y),
+                map(0, 20, 0, 5, r), map(0, 20, 0, 5, r));
     }
 
     public void renderPlanets(MyShapeRenderer renderer, float yCoord) {

@@ -45,7 +45,7 @@ public class Readout {
     }
 
     protected void rect(Color c, float x, float y, float w, float h, float r) {
-        rectCoordinates.add(new RectHolder(c, x, y, w, h, r));
+        rectCoordinates.add(new RectHolder(c, this.x + x, this.y + y, w, h, r));
     }
 
     protected void image(Texture texture, float x, float y, float w, float h) {
@@ -86,7 +86,7 @@ public class Readout {
         x = this.x + x;
         y = this.y + y;
         Vector3 touchPos = new Vector3();
-        touchPos.set(Gdx.input.getX(), 600-Gdx.input.getY(), 0);
+        touchPos.set(Gdx.input.getX(), 600 - Gdx.input.getY(), 0);
         if (touchPos.x > x && touchPos.x < x + w && touchPos.y > y && touchPos.y < y + h
                 && pMousePressed != Gdx.input.isTouched() && Gdx.input.isTouched()) {
             clickSound.play(0.125f);

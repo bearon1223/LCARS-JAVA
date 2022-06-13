@@ -1,6 +1,11 @@
 package com.libgdx.lcars.Readout;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -19,6 +24,8 @@ public class Starchart extends Readout {
     public Vector2 currentSector = new Vector2(0, 0);
     public Vector2 selectedSector = new Vector2(0, 0);
 
+    private Texture tacticalDisplaySurroundings;
+
     public longVector limits;
 
     public boolean isClicked = false;
@@ -36,6 +43,7 @@ public class Starchart extends Readout {
                 index++;
             }
         }
+        tacticalDisplaySurroundings = new Texture(Gdx.files.internal("Tactical Display Surroundings.png"));
     }
 
     private boolean within(Readout r, Vector2 vector, float x, float y, float d) {
@@ -52,16 +60,16 @@ public class Starchart extends Readout {
         return (vector.x > x && vector.y > y && vector.x < x + w && vector.y < y + h);
     }
 
-    Vector2 convertIndexToVector(float index) {
-        Vector2 finalConversion = new Vector2(69, 69);
+    Vector3 convertIndexToVector(float index) {
+        Vector3 finalConversion = new Vector3(69, 69, 69);
         if (index <= 4)
-            finalConversion = new Vector2(index, 0);
+            finalConversion = new Vector3(index, 0, 0);
         else if (index <= 9)
-            finalConversion = new Vector2(index - 5, 1);
+            finalConversion = new Vector3(index - 5, 1, 0);
         else if (index <= 14)
-            finalConversion = new Vector2(index - 10, 2);
+            finalConversion = new Vector3(index - 10, 2, 0);
         else if (index <= 19)
-            finalConversion = new Vector2(index - 15, 3);
+            finalConversion = new Vector3(index - 15, 3, 0);
         else
             System.out.println("ur dum");
         return finalConversion;
@@ -120,29 +128,23 @@ public class Starchart extends Readout {
         for (int i = 0; i <= amount; i++) {
             for (int j = 0; j < amount; j++) {
                 // stroke(150);
-                // Vector2 offset = new Vector2(ezMap(40, true), ezMap(40, false));
-                // if (i == amount)
-                // line(x + i * offset.x, y + j * offset.y, x + (i + 0.3) * offset.x, y + j *
-                // offset.y);
-                // else if (j != 0)
-                // line(x + i * offset.x, y + j * offset.y, x + (i + 1) * offset.x, y + j *
-                // offset.y);
-                // if (j == amount - 1)
-                // line(x + i * offset.x, y + j * offset.y, x + i * offset.x, y + (j + 0.2) *
-                // offset.y);
-                // else
-                // line(x + i * offset.x, y + j * offset.y, x + i * offset.x, y + (j + 1) *
-                // offset.y);
+                Vector2 offset = new Vector2(40, 40);
+                if (i == amount)
+                    renderer.line(x + i * offset.x, y + j * offset.y, x + (i + 0.3f) * offset.x, y + j * offset.y,
+                            Color.WHITE, Color.WHITE);
+                else if (j != 0)
+                    renderer.line(x + i * offset.x, y + j * offset.y, x + (i + 1f) * offset.x, y + j * offset.y,
+                            Color.WHITE, Color.WHITE);
+                if (j == amount - 1)
+                    renderer.line(x + i * offset.x, y + j * offset.y, x + i * offset.x, y + (j + 0.2f) * offset.y,
+                            Color.WHITE, Color.WHITE);
+                else
+                    renderer.line(x + i * offset.x, y + j * offset.y, x + i * offset.x, y + (j + 1f) * offset.y,
+                            Color.WHITE, Color.WHITE);
             }
         }
 
-        // fill(0);
-        // noStroke();
-        // drawRect(0, -10, originalSize.x, 20);
-        // textAlign(LEFT, TOP);
-        // fill(255);
-        // displayText("Selected Sector: " + floor(selected.x + 1), 30, 0);
-        // textAlign(RIGHT, BOTTOM);
+        renderer.setColor(0, 0, 0, 0);
 
         int with = 0;
         Vector2 temp = new Vector2(0, 0);
@@ -180,8 +182,35 @@ public class Starchart extends Readout {
         }
     }
 
+    @Override
+    public void batchRenderer(SpriteBatch batch, BitmapFont font, boolean pMousePressed) {
+        super.batchRenderer(batch, font, pMousePressed);
+        image(tacticalDisplaySurroundings, x, y, w, h);
+        int amount = 5;
+        switch (scene) {
+            case 0:
+                int index = 0;
+                for (int j = 0; j < amount - 1; j++) {
+                    for (int i = 0; i < amount; i++) {
+                        Vector2 offset = new Vector2(40, 40);
+                        font.setColor(255, 255, 255, 255);
+                        // textSize(10);
+                        font.draw(batch, String.valueOf(index + 1), x + i * offset.x, h-(j * offset.y)+offset.y, offset.x, 0,
+                                true);
+                        index++;
+                    }
+                }
+                rect(Color.BLACK, 0, h-10, w, 20);
+                // textAlign(LEFT, TOP);
+                // batch.setColor(Color.WHITE);
+                font.setColor(Color.WHITE);
+                font.draw(batch, "Selected Sector: " + Math.floor(selected.x + 1), x+30, y+h);
+                // textAlign(RIGHT, BOTTOM);
+                break;
+        }
+    }
+
     void shapeRenderer(MyShapeRenderer renderer, Sound click, Panel selectionPanel, boolean pMousePressed) {
-        shapeRenderer(renderer);
         // textSize(13);
         // fill(255);
         if (selectionPanel.Button(click, new Vector2(5, 0), pMousePressed)) {
@@ -196,14 +225,15 @@ public class Starchart extends Readout {
                 break;
             case 2:
                 systemMap(renderer);
-                // fill(0);
-                // drawRect(0, -100, originalSize.x, 110);
-                // drawRect(0, originalSize.y - 10, originalSize.y, 2000);
+                // renderer.setColor(0, 0, 0, 0);
+                // rect(0, -100, w, 110);
+                // rect(0, h - 10, h, 2000);
                 // fill(255);
                 // textAlign(LEFT, TOP);
                 // textSize(13);
-                // displayText("Selected Sector: " + floor(selected.x + 1) + ", System: " + floor(selected.y + 1)
-                //         + ", \nPlanet: " + floor(selected.z + 1), 30, 0);
+                // displayText("Selected Sector: " + floor(selected.x + 1) + ", System: " +
+                // floor(selected.y + 1)
+                // + ", \nPlanet: " + floor(selected.z + 1), 30, 0);
                 // textAlign(RIGHT, BOTTOM);
                 break;
             case 3:
@@ -214,8 +244,9 @@ public class Starchart extends Readout {
                 // fill(255);
                 // textAlign(LEFT, TOP);
                 // textSize(13);
-                // text("Sector: " + floor(selected.x + 1) + ", System: " + floor(selected.y + 1) + ", Planet: "
-                //         + floor(selected.z + 1), 30, 0);
+                // text("Sector: " + floor(selected.x + 1) + ", System: " + floor(selected.y +
+                // 1) + ", Planet: "
+                // + floor(selected.z + 1), 30, 0);
                 // textAlign(RIGHT, BOTTOM);
                 break;
             default:
@@ -224,10 +255,9 @@ public class Starchart extends Readout {
         if (scene != 3)
             target(targetingPointLoc.x, targetingPointLoc.y, 5);
         // noStroke();
-        // fill(0);
-        // drawRect(-2, -2, 12, 175);
-        // drawRect(218, 0, 10, 173);
-        // displayImage(tacticalSurrounds, 0, 0, 228, 173);
+        rect(Color.BLACK, -2, -2, 12, 175);
+        rect(Color.BLACK, 218, 0, 10, 173);
+        shapeRenderer(renderer);
         isClicked = false;
     }
 

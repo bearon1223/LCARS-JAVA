@@ -89,6 +89,8 @@ public class MainMenu implements Screen {
         aReadout.render(app.batch);
         app.batch.end();
 
+        mReadout.seperateRender(app.batch, app.font, pMousePressed, renderer, app.click);
+
         if (upperButtons.Button(app.click, new Vector2(0, 2), pMousePressed)) {
             mReadout.scene = 0;
         }

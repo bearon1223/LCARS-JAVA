@@ -22,6 +22,8 @@ public class MainReadout extends Readout {
     private Panel navBottomPanel;
     private Sound click;
 
+    private Starchart chart;
+
     public MainReadout(float x, float y, float w, float h) {
         super(x, y, w, h);
         standby = new Texture(Gdx.files.internal("Federation Standby.jpg"));
@@ -30,6 +32,8 @@ public class MainReadout extends Readout {
 
         mainSystemsPanel.rename("Navigation", 5, 0);
         mainSystemsPanel.rename("Tactical", 5, 1);
+        
+        chart = new Starchart(x+10, h-310);
 
         // tD = new TacticalDisplay(x + 10, y + 150);
         navSystemsPanel = new Panel(this, 340, h - 150 - 150, 150, 150, 3, 6);
@@ -50,11 +54,12 @@ public class MainReadout extends Readout {
                 break;
             case 11:
                 // Navigational Panel
-                // tD.render(navTopPanel);
                 navSystemsPanel.render(shape, 0, false);
                 navCenterPanel.render(shape, 0, false);
                 navTopPanel.render(shape, 0, false);
                 navBottomPanel.render(shape, 0, false);
+
+                chart.shapeRenderer(shape, click, navTopPanel, pMousePressed);
                 break;
             default:
                 rect(new Color(1, 1, 1, 1), x, y, scene * 10, 20);
@@ -81,7 +86,8 @@ public class MainReadout extends Readout {
                 navCenterPanel.textRenderer(batch, font);
                 navTopPanel.textRenderer(batch, font);
                 navBottomPanel.textRenderer(batch, font);
-                // if(circleButton(batch, click, 10, h - 110, 100, 100) == 0)
+
+                chart.batchRenderer(batch, font, pMousePressed);
                 // System.out.println("d");
                 switch (circleButton(batch, click, 10, h - 110, 100, 100, pMousePressed)) {
                     case 1:
@@ -112,6 +118,10 @@ public class MainReadout extends Readout {
                 circleButton(batch, click, 890 - x, 100, 100, 100, pMousePressed);
                 break;
         }
+    }
+
+    public void seperateRender(SpriteBatch batch, BitmapFont font, boolean pMousePressed, MyShapeRenderer shape, Sound click){
+        
     }
 
     @Override
