@@ -124,8 +124,8 @@ public class Cargo {
         itemSelection.render(r);
         itemSelection.textRenderer(r, itemValues);
         r.displayText("Total Used: " + (Math.round(currentStorage / maxStorage * 10000) / 100f) + "%, "
-                + "Used Volume: " + Math.round(currentStorage) + ", Remaining Volume: "
-                + Math.round(maxStorage - currentStorage), 10, 40);
+                + "Used Volume: " + Math.round(currentStorage) + "L, Remaining Volume: "
+                + Math.round(maxStorage - currentStorage)+"L", 10, 40);
         r.rect(new Color(0.4f, 0.4f, 1f, 1f), 10, 0, r.w - 20, 20);
         r.rect(new Color(0.7f, 0.7f, 1f, 1f), 10, 0, map(0, maxStorage, 0, r.w - 20, currentStorage), 20);
     }
