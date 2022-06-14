@@ -10,6 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.libgdx.lcars.MyShapeRenderer;
 import com.libgdx.lcars.Panel;
 import com.libgdx.lcars.TextArrays;
+import com.libgdx.lcars.ship.Ship;
+
+import static com.badlogic.gdx.math.MathUtils.map;
 
 public class MainReadout extends Readout {
     private Texture standby;
@@ -22,16 +25,22 @@ public class MainReadout extends Readout {
     private Panel navBottomPanel;
     private Sound click;
 
+    public float selectedSpeed;
+
+    private Ship s;
+
     private Starchart chart;
 
-    public MainReadout(float x, float y, float w, float h) {
+    public MainReadout(Ship s, float x, float y, float w, float h) {
         super(x, y, w, h);
+        this.s = s;
         standby = new Texture(Gdx.files.internal("Federation Standby.jpg"));
 
         mainSystemsPanel = new Panel(this, 0, 0, w, h, 6, 5);
 
         mainSystemsPanel.rename("Navigation", 5, 0);
         mainSystemsPanel.rename("Tactical", 5, 1);
+        mainSystemsPanel.rename("Mining", 5, 2);
 
         chart = new Starchart(x + 10, h - 310);
 
@@ -62,7 +71,7 @@ public class MainReadout extends Readout {
                 chart.shapeRenderer(shape, click, navTopPanel, pMousePressed);
                 break;
             default:
-                rect(new Color(1, 1, 1, 1), x, y, scene * 10, 20);
+                // rect(new Color(1, 1, 1, 1), 0, 0, scene * 50, 20);
                 break;
         }
     }
@@ -80,6 +89,7 @@ public class MainReadout extends Readout {
             case 11:
                 // Navigational Panel
                 int increment = 5;
+                font.setColor(Color.BLACK);
                 navSystemsPanel.textRenderer(batch, font, 0.5f);
                 navCenterPanel.textRenderer(batch, font);
                 navTopPanel.textRenderer(batch, font);
@@ -101,6 +111,32 @@ public class MainReadout extends Readout {
                         break;
                 }
 
+                if (s.getWarpCore().travelDistance - s.getWarpCore().traveledDistance != 0) {
+                    Color c = new Color(Color.WHITE);
+                    if (Math.floor(System.currentTimeMillis() / 1000) % 2 == 0 && (!s.getWarpCore().isEnabled()))
+                        c = new Color(1, 0.39f, 0.39f, 1);
+                    else
+                        c = new Color(Color.WHITE);
+                    if (!s.getWarpCore().isEnabled())
+                        displayText(c, "Error: No Active Warp Core", 10, h - 130, 0.7f);
+                    else if (s.getWarpCore().travelDistance - s.getWarpCore().traveledDistance != 0)
+                        displayText(c, "Distance Left: "
+                                + String.valueOf(
+                                        Math.round(s.getWarpCore().travelDistance - s.getWarpCore().traveledDistance))
+                                + "LY", 10, h - 130, 0.7f);
+                } /*else if (impulse.travelDistance - wc.traveledDistance != 0) {
+                    if (second() % 2 == 0 && (!wc.isEnabled))
+                        fill(255, 100, 100);
+                    else
+                        fill(255);
+                    if (!impulse.isEnabled)
+                        displayText("Error: No Active Impulse Engines", 10, 130, tD.originalSize.x, 20);
+                    else if (impulse.travelDistance - wc.traveledDistance != 0)
+                        displayText("Distance Left: " + str(round(impulse.travelDistance - impulse.traveledDistance))
+                                + "AU", 10, 130, tD.originalSize.x, 20);
+                }*/ else
+                    displayText("At Destination", 10, h - 130, 0.7f);
+
                 if (navTopPanel.Button(click, new Vector2(0, 0), pMousePressed)) {
                     chart.scene = 0;
                 } else if (navTopPanel.Button(click, new Vector2(1, 0), pMousePressed)) {
@@ -114,14 +150,49 @@ public class MainReadout extends Readout {
                     // chart.selectedSector = chart.convertIndexToVector(coordinates.x);
                     // chart.scene = 3;
                 }
+                if (navBottomPanel.Button(click, new Vector2(0, 0), pMousePressed) && (s.getWarpCore().isEnabled())) {
+                    s.isTravelingWarp = true;
+                    selectedSpeed = 1;
+                } else if (navBottomPanel.Button(click, new Vector2(1, 0), pMousePressed)
+                        && (s.getWarpCore().isEnabled())) {
+                    s.isTravelingWarp = true;
+                    selectedSpeed = 2;
+                } else if (navBottomPanel.Button(click, new Vector2(2, 0), pMousePressed)
+                        && (s.getWarpCore().isEnabled())) {
+                    s.isTravelingWarp = true;
+                    selectedSpeed = 3;
+                } else if (navBottomPanel.Button(click, new Vector2(3, 0), pMousePressed)
+                        && (s.getWarpCore().isEnabled())) {
+                    s.isTravelingWarp = true;
+                    selectedSpeed = 4;
+                } else if (navBottomPanel.Button(click, new Vector2(4, 0), pMousePressed)
+                        && (s.getWarpCore().isEnabled())) {
+                    s.isTravelingWarp = true;
+                    selectedSpeed = 5;
+                } else if (navBottomPanel.Button(click, new Vector2(5, 0), pMousePressed)
+                        && (s.getWarpCore().isEnabled())) {
+                    s.isTravelingWarp = true;
+                    selectedSpeed = 6;
+                } else if (navBottomPanel.Button(click, new Vector2(6, 0), pMousePressed)
+                        && (s.getWarpCore().isEnabled())) {
+                    s.isTravelingWarp = true;
+                    selectedSpeed = 7;
+                }
                 circleButton(batch, click, 890 - x, 100, 100, 100, pMousePressed);
+                break;
+            case 7:
+                displayText("Total Used: "
+                        + (Math.round(s.getCargo().getCurrentStorage() / s.getCargo().getMaxStorage() * 10000) / 100f)
+                        + "%", 10, 40);
+                rect(new Color(0.4f, 0.4f, 1f, 1f), 10, 0, w - 20, 20);
+                rect(new Color(0.7f, 0.7f, 1f, 1f), 10, 0,
+                        map(0, s.getCargo().getMaxStorage(), 0, w - 20, s.getCargo().getCurrentStorage()), 20);
                 break;
         }
     }
 
-    public void seperateRender(SpriteBatch batch, BitmapFont font, boolean pMousePressed, MyShapeRenderer shape,
-            Sound click) {
-
+    public Starchart getStarchart() {
+        return chart;
     }
 
     @Override

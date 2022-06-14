@@ -11,7 +11,7 @@ import com.libgdx.lcars.Readout.MainReadout;
 import com.libgdx.lcars.Readout.SecondaryReadout;
 import com.libgdx.lcars.Readout.TertiaryReadout;
 
-public class MainMenu implements Screen {
+public class MainScreen implements Screen {
     final LCARS app;
     private OrthographicCamera camera;
     private MyShapeRenderer renderer;
@@ -34,7 +34,7 @@ public class MainMenu implements Screen {
 
     private boolean pMousePressed = false;
 
-    public MainMenu(final LCARS app) {
+    public MainScreen(final LCARS app) {
         this.app = app;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1000, 600);
@@ -43,7 +43,8 @@ public class MainMenu implements Screen {
         tReadout = new TertiaryReadout(7, 600 - (141.65f + 151) - 125, 155, 120);
         sReadout = new SecondaryReadout(390, 600 - 5 - 195, 1000 - 395 - 180, 195);
         aReadout = new AUXReadout(5, 600 - 141.652f + 5, mainSideMenu.x - 10, 141.651f - 10);
-        mReadout = new MainReadout(midMenu.x, 5, 1000 - midMenu.x - 5, 600 - (201 + midMenu.size.y) - 5);
+        mReadout = new MainReadout(app.playerShip, midMenu.x, 5, 1000 - midMenu.x - 5,
+                600 - (201 + midMenu.size.y) - 5);
 
     }
 
@@ -87,7 +88,12 @@ public class MainMenu implements Screen {
         tReadout.batchRenderer(app.batch, app.font, pMousePressed);
         sReadout.render(app.batch);
         aReadout.render(app.batch);
+
+        // app.playerShip.getCargo().getWarpFuel().render(app.batch, 10, 10, 10, 10);
         app.batch.end();
+
+        // app.playerShip.update();
+        // System.out.println(app.playerShip.getCargo().getWarpFuel().getItemCount());
 
         // mReadout.seperateRender(app.batch, app.font, pMousePressed, renderer,
         // app.click);
@@ -106,10 +112,18 @@ public class MainMenu implements Screen {
 
         mainSideMenu.clickArray(app.click, mReadout, TextArrays.mainSideMenuClickID, pMousePressed);
 
+        app.playerShip.getWarpCore().travel(mReadout.getStarchart(),
+                mReadout.getStarchart().s[(int) mReadout.getStarchart().currentSector.x][(int) mReadout
+                        .getStarchart().currentSector.y],
+                mReadout.getStarchart().s[(int) mReadout.getStarchart().selectedSector.x][(int) mReadout
+                        .getStarchart().selectedSector.y],
+                mReadout.getStarchart().s[(int) mReadout.getStarchart().currentSector.x][(int) mReadout
+                        .getStarchart().currentSector.y].getSystem((int) app.playerShip.sectorCoords.y),
+                mReadout.getStarchart().s[(int) mReadout.getStarchart().selectedSector.x][(int) mReadout
+                        .getStarchart().selectedSector.y].getSystem((int) mReadout.getStarchart().selected.y),
+                app.playerShip.isTravelingWarp, mReadout.selectedSpeed);
+
         pMousePressed = Gdx.input.isTouched();
-        // } catch (ArrayIndexOutOfBoundsException e) {
-        // e.printStackTrace();
-        // }
     }
 
     @Override

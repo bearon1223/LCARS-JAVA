@@ -5,11 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.libgdx.lcars.ship.Ship;
 
 public class LCARS extends Game {
 	public SpriteBatch batch;
 	public BitmapFont font;
 	public Sound click;
+	public Ship playerShip;
 
 	@Override
 	public void create() {
@@ -17,6 +19,7 @@ public class LCARS extends Game {
 		font = new BitmapFont();
 		click = Gdx.audio.newSound(Gdx.files.internal("Click.wav"));
 		font.getData().setScale(1);
+		playerShip = new Ship(true);
 		this.setScreen(new LoginScene(this));
 	}
 
@@ -24,6 +27,7 @@ public class LCARS extends Game {
 	public void render() {
 		super.render();
 		// System.out.println(Gdx.graphics.getFramesPerSecond());
+		playerShip.update();
 	}
 
 	@Override

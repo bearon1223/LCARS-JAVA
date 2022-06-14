@@ -198,25 +198,19 @@ public class Starchart extends Readout {
                         index++;
                     }
                 }
-                // font.getData().setScale(1);
                 rect(Color.BLACK, 0, h - 10, w, 20);
-                // font.setColor(Color.WHITE);
-                // font.draw(batch, "Selected Sector: " + Math.floor(selected.x + 1), x + 30, y
-                // + h);
                 displayText(Color.WHITE, "Selected Sector: " + Math.floor(selected.x + 1), 30, h, 0.7f);
                 break;
             case 1:
                 Sector sector = s[(int) selectedSector.x][(int) selectedSector.y];
                 for (int i = 0; i < sector.systemAmount; i++) {
-                    font.draw(batch, "System: "+ (i + 1), sector.getSystem(i).loc.x, sector.getSystem(i).loc.y);
+                    font.draw(batch, "System: " + (i + 1), sector.getSystem(i).loc.x, sector.getSystem(i).loc.y);
                 }
                 break;
         }
     }
 
     public void shapeRenderer(MyShapeRenderer renderer, Sound click, Panel selectionPanel, boolean pMousePressed) {
-        // textSize(13);
-        // fill(255);
         if (selectionPanel.Button(click, new Vector2(5, 0), pMousePressed)) {
             isClicked = true;
         }
@@ -240,22 +234,18 @@ public class Starchart extends Readout {
                         .getPlanet((int) selected.z)
                         .renderPlanetSystem(renderer, new Vector2(x, y), new Vector2(w, h), (float) (y + h / 2));
 
-                // fill(255);
-                // textAlign(LEFT, TOP);
-                // textSize(13);
                 displayText("Sector: " + Math.floor(selected.x + 1) + ", System: " + Math.floor(selected.y + 1)
                         + ", \nPlanet: " + Math.floor(selected.z + 1) + ", Name: "
                         + s[(int) selectedSector.x][(int) selectedSector.y].getSystem((int) selected.y)
                                 .getPlanet((int) selected.z).name,
                         30, h - 0.7f, 0.7f);
-                // textAlign(RIGHT, BOTTOM);
                 break;
             default:
                 rect(0, 0, w, h);
         }
         if (scene != 3)
             target(renderer, targetingPointLoc.x, targetingPointLoc.y, 5);
-        // noStroke();
+
         rect(Color.BLACK, -2, -2, 12, 175);
         rect(Color.BLACK, 218, 0, 10, 173);
         shapeRenderer(renderer);

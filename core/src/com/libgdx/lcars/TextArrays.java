@@ -26,13 +26,13 @@ public final class TextArrays {
         };
 
         public static final String[][] mainSideMenuNames = {
-                        { "SYS DIRECTORY" },
-                        { "AUX DIRECTORY" },
+                        { "SYSTEM DIRECTORY" },
+                        { "ENGINE CONTROL" },
                         { "MED DIRECTORY" },
                         { "ANTENNA ARRAY" },
                         { "STELLAR MAPS" },
                         { "MISSION OPS" },
-                        { "DATABASE" },
+                        { "CARGO BAYS" },
         };
 
         public static final int[][] mainSideMenuClickID = {

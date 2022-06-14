@@ -48,7 +48,7 @@ public class LoginScene implements Screen {
         renderer.end();
 
         if (Gdx.input.isKeyPressed(Keys.ENTER)) {
-            app.setScreen(new MainMenu(app));
+            app.setScreen(new MainScreen(app));
             app.click.play(0.125f);
             dispose();
         }
