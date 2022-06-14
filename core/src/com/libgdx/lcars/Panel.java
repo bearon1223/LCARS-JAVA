@@ -2,6 +2,7 @@ package com.libgdx.lcars;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -13,9 +14,9 @@ public class Panel {
     public float x, y;
     public Vector2 size;
     public Vector2 panelCount;
-    private Vector3[][] colors;
+    protected Vector3[][] colors;
 
-    private String[][] names;
+    protected String[][] names;
 
     public Panel(float x, float y, Vector2 size, Vector2 panelCount) {
         this.x = x;
@@ -91,6 +92,18 @@ public class Panel {
                 font.draw(batch, names[(int) ((panelCount.y - 1) - j)][i], (float) x + i * rectSize.x,
                         (float) y + j * rectSize.y + offset,
                         rectSize.x - 5, 1, true);
+            }
+        }
+    }
+
+    public void textRenderer(Readout r, float scale) {
+        Vector2 rectSize = new Vector2((size.x) / panelCount.x, (size.y) / panelCount.y);
+        float offset = rectSize.y / 1.5f;
+        for (int i = 0; i < panelCount.x; i++) {
+            for (int j = 0; j < panelCount.y; j++) {
+                r.displayText(Color.BLACK, names[(int) ((panelCount.y - 1) - j)][i], (float) (x + i * rectSize.x) - r.x,
+                        (float) (y + j * rectSize.y + offset) - r.y,
+                        rectSize.x - 5, 1, scale);
             }
         }
     }

@@ -25,6 +25,13 @@ public final class TextArrays {
                         { "FULL IMPULSE" }
         };
 
+        public static final String[][] cargoSelectionNames = {
+                        {"Dump Selected"}, 
+                        {"Transfer"}, 
+                        {"Move Up"}, 
+                        {"Move Down"}
+        };
+
         public static final String[][] mainSideMenuNames = {
                         { "SYSTEM DIRECTORY" },
                         { "ENGINE CONTROL" },

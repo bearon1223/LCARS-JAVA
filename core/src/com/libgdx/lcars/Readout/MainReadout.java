@@ -12,7 +12,7 @@ import com.libgdx.lcars.Panel;
 import com.libgdx.lcars.TextArrays;
 import com.libgdx.lcars.ship.Ship;
 
-import static com.badlogic.gdx.math.MathUtils.map;
+// import static com.badlogic.gdx.math.MathUtils.map;
 
 public class MainReadout extends Readout {
     private Texture standby;
@@ -27,7 +27,7 @@ public class MainReadout extends Readout {
 
     public float selectedSpeed;
 
-    private Ship s;
+    public Ship s;
 
     private Starchart chart;
 
@@ -69,6 +69,9 @@ public class MainReadout extends Readout {
                 navBottomPanel.render(shape, 0, false);
 
                 chart.shapeRenderer(shape, click, navTopPanel, pMousePressed);
+                break;
+            case 7:
+                s.getCargo().render(shape, click, pMousePressed, this);
                 break;
             default:
                 // rect(new Color(1, 1, 1, 1), 0, 0, scene * 50, 20);
@@ -122,9 +125,9 @@ public class MainReadout extends Readout {
                     else if (s.getWarpCore().travelDistance - s.getWarpCore().traveledDistance != 0)
                         displayText(c, "Distance Left: "
                                 + String.valueOf(
-                                        Math.round(s.getWarpCore().travelDistance - s.getWarpCore().traveledDistance))
+                                        Math.round((s.getWarpCore().travelDistance - s.getWarpCore().traveledDistance)))
                                 + "LY", 10, h - 130, 0.7f);
-                } /*else if (impulse.travelDistance - wc.traveledDistance != 0) {
+                }/*else if (impulse.travelDistance - wc.traveledDistance != 0) {
                     if (second() % 2 == 0 && (!wc.isEnabled))
                         fill(255, 100, 100);
                     else
@@ -179,14 +182,6 @@ public class MainReadout extends Readout {
                     selectedSpeed = 7;
                 }
                 circleButton(batch, click, 890 - x, 100, 100, 100, pMousePressed);
-                break;
-            case 7:
-                displayText("Total Used: "
-                        + (Math.round(s.getCargo().getCurrentStorage() / s.getCargo().getMaxStorage() * 10000) / 100f)
-                        + "%", 10, 40);
-                rect(new Color(0.4f, 0.4f, 1f, 1f), 10, 0, w - 20, 20);
-                rect(new Color(0.7f, 0.7f, 1f, 1f), 10, 0,
-                        map(0, s.getCargo().getMaxStorage(), 0, w - 20, s.getCargo().getCurrentStorage()), 20);
                 break;
         }
     }

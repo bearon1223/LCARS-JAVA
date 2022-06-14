@@ -34,43 +34,43 @@ public class Readout {
         textHolder = new Array<TextHolder>();
     }
 
-    protected void rect(float x, float y, float w, float h, float r) {
+    public void rect(float x, float y, float w, float h, float r) {
         rect(Color.WHITE, x, y, w, h, r);
     }
 
-    protected void rect(float x, float y, float w, float h) {
+    public void rect(float x, float y, float w, float h) {
         rect(x, y, w, h, 0);
     }
 
-    protected void rect(Color c, float x, float y, float w, float h) {
+    public void rect(Color c, float x, float y, float w, float h) {
         rect(c, x, y, w, h, 0);
     }
 
-    protected void rect(Color c, float x, float y, float w, float h, float r) {
+    public void rect(Color c, float x, float y, float w, float h, float r) {
         rectCoordinates.add(new RectHolder(c, this.x + x, this.y + y, w, h, r));
     }
 
-    protected void image(Texture texture, float x, float y, float w, float h) {
+    public void image(Texture texture, float x, float y, float w, float h) {
         textureHolder.add(new TextureHolder(texture, x, y, w, h));
     }
 
-    protected void displayText(Color c, String txt, float x, float y, float w, int hlign, float scale) {
+    public void displayText(Color c, String txt, float x, float y, float w, int hlign, float scale) {
         textHolder.add(new TextHolder(c, txt, this.x + x, this.y + y, w, hlign, scale));
     }
 
-    protected void displayText(Color c, String txt, float x, float y) {
+    public void displayText(Color c, String txt, float x, float y) {
         displayText(c, txt, x, y, w, -1, 1);
     }
 
-    protected void displayText(Color c, String txt, float x, float y, float scale) {
+    public void displayText(Color c, String txt, float x, float y, float scale) {
         displayText(c, txt, x, y, w, -1, scale);
     }
 
-    protected void displayText(String txt, float x, float y) {
+    public void displayText(String txt, float x, float y) {
         displayText(Color.WHITE, txt, x, y);
     }
 
-    protected void displayText(String txt, float x, float y, float scale) {
+    public void displayText(String txt, float x, float y, float scale) {
         displayText(Color.WHITE, txt, x, y, scale);
     }
 

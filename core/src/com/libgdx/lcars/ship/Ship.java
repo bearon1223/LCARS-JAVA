@@ -50,4 +50,8 @@ public class Ship {
     public Impulse getImpulse() {
         return impulse;
     }
+
+    public void dispose() {
+        cargo.dispose();
+    }
 }

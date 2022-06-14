@@ -3,19 +3,20 @@ package com.libgdx.lcars.ship.cargo;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Item {
     protected final int perItemVolume;
     protected final int perItemWeight;
     protected float itemCount;
     protected Texture texture;
+    protected String name;
 
-    public Item(FileHandle file, int perItemVolume, int perItemWeight, int startingCount) {
+    public Item(FileHandle file, String name, int perItemVolume, int perItemWeight, int startingCount) {
         this.perItemVolume = perItemVolume;
         this.perItemWeight = perItemWeight;
         itemCount = startingCount;
         this.texture = new Texture(file);
+        this.name = name;
     }
 
     public float getTotalWeight() {
@@ -38,8 +39,11 @@ public class Item {
         itemCount -= (amount * Gdx.graphics.getDeltaTime());
     }
 
-    public void render(SpriteBatch batch, float x, float y, float w, float h) {
-        // TODO: add Render code
-        batch.draw(texture, x, y, w, h);
+    public String getName() {
+        return name;
+    }
+
+    public void dispose() {
+        texture.dispose();
     }
 }
