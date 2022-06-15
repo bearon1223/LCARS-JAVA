@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.libgdx.lcars.Readout.Readout;
 
+import static com.badlogic.gdx.math.MathUtils.map;
+
 public class Panel {
     public float x, y;
     public Vector2 size;
@@ -108,8 +110,22 @@ public class Panel {
         }
     }
 
-    public void textRenderer(SpriteBatch batch, BitmapFont font){
+    public void textRenderer(SpriteBatch batch, BitmapFont font) {
         textRenderer(batch, font, 1);
+    }
+
+    public void render(Readout r) {
+        int offset = 5;
+        Vector2 rectSize = new Vector2((size.x) / panelCount.x, (size.y) / panelCount.y);
+        for (int i = 0; i < panelCount.x; i++) {
+            for (int j = 0; j < panelCount.y; j++) {
+                Color c = new Color(Color.WHITE);
+                c = new Color(map(0, 255, 0, 1, colors[i][j].x), map(0, 255, 0, 1, colors[i][j].y),
+                        map(0, 255, 0, 1, colors[i][j].z), 1);
+                r.rect(c, (float) x + i * rectSize.x - r.x, (float) y + j * rectSize.y - r.y, rectSize.x - offset,
+                        rectSize.y - offset);
+            }
+        }
     }
 
     public void render(MyShapeRenderer renderer, int round, boolean isReversed) {

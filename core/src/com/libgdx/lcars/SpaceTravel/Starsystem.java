@@ -3,6 +3,7 @@ package com.libgdx.lcars.SpaceTravel;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.libgdx.lcars.MyShapeRenderer;
+import com.libgdx.lcars.longVector;
 import com.libgdx.lcars.Readout.Starchart;
 
 import static com.badlogic.gdx.math.MathUtils.map;
@@ -12,9 +13,11 @@ public class Starsystem {
     public Planet[] p;
     public Vector2 loc;
     public int id, r = 15, planetAmount;
+    private longVector limits;
 
     public Starsystem(Sector s, Vector2 loc, int id, int planetAmount) {
         p = new Planet[planetAmount];
+        limits = new longVector(30, 228 - 30, 30, 173 - 40);
         this.s = s;
         r = Math.round(MathUtils.random(10, 20));
         this.planetAmount = planetAmount;
@@ -51,8 +54,8 @@ public class Starsystem {
         // random(10, w-10), random(30, h-40);w=228, h=173
         // if(arrayID.x==1 && arrayID.y == 1) println(loc.x);
         chooseColor(renderer);
-        renderer.ellipse(t.x + ((offset.x) * (arrayID.x)) + map(0, t.limits.y, 3, 37, loc.x - t.x),
-                t.y + ((offset.y) * (arrayID.y)) + map(0, t.limits.w, 3, 37, loc.y - t.y),
+        renderer.ellipse(t.x + ((offset.x) * (arrayID.x)) + map(0, limits.y, 3, 37, loc.x - t.x),
+                t.y + ((offset.y) * (arrayID.y)) + map(0, limits.w, 3, 37, loc.y - t.y),
                 map(0, 20, 0, 5, r), map(0, 20, 0, 5, r));
     }
 

@@ -5,27 +5,51 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.libgdx.lcars.MyShapeRenderer;
 import com.libgdx.lcars.ship.Ship;
+import com.libgdx.lcars.ship.cargosystem.Alloys;
+import com.libgdx.lcars.ship.cargosystem.ImpulseFuel;
+import com.libgdx.lcars.ship.cargosystem.WarpFuel;
 
 public class Planet {
     public int size;
     private int id;
-    Ship ship;
+    protected Ship ship;
     public String name;
-    boolean hasShip = false;
+    protected boolean hasShip = false;
+    protected Alloys planetAlloys;
+    protected WarpFuel dilithium;
+    protected ImpulseFuel deuterium;
 
     public Planet(int id, int size, String name) {
         this.size = size;
         this.id = id;
         this.name = name;
-        if (Math.round(MathUtils.random(0, 5)) == 1) {
-            hasShip = true;
-            System.out.println(id + ", " + name);
-        }
+        // if (Math.round(MathUtils.random(0, 15)) == 1) {
+        //     hasShip = true;
+        //     System.out.println(id + ", " + name);
+        // }
+        planetAlloys = new Alloys((int) (Math.floor(MathUtils.random(300, 400))));
+        dilithium = new WarpFuel((int) (Math.floor(MathUtils.random(50, 150))));
+        deuterium = new ImpulseFuel((int) (Math.floor(MathUtils.random(100, 300))));
     }
 
     public Planet(int id) {
         this(id, MathUtils.random(15, 23),
                 PlanetNames.randomName[(int) (MathUtils.random(0, PlanetNames.randomName.length - 1))]);
+    }
+
+    public Alloys getAlloys() {
+        return planetAlloys;
+    }
+    public WarpFuel getWarpFuel() {
+        return dilithium;
+    }
+
+    public ImpulseFuel getImpulseFuel() {
+        return deuterium;
+    }
+
+    public boolean hasResources(){
+        return (planetAlloys.getItemCount() > 0 || dilithium.getItemCount() > 0 || deuterium.getItemCount() > 0);
     }
 
     public void render(MyShapeRenderer renderer, float yCoord) {

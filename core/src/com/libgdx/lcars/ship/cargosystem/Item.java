@@ -1,4 +1,4 @@
-package com.libgdx.lcars.ship.cargo;
+package com.libgdx.lcars.ship.cargosystem;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;

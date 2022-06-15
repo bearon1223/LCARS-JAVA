@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.libgdx.lcars.MyShapeRenderer;
 import com.libgdx.lcars.Panel;
 import com.libgdx.lcars.TextArrays;
@@ -51,7 +52,7 @@ public class MainReadout extends Readout {
         engMainPanel = new Panel(this, 160, h - 100, 450, 100, 4, 1).addNames(TextArrays.engMainPanelNames);
         engSidePanel = new Panel(this, w - 125, 10, 130, h - 110, 1, 5).addNames(TextArrays.engSidePanelNames);
 
-        chart = new Starchart(x + 10, h - 310);
+        chart = new Starchart(s.s, x + 10, h - 310);
 
         navSystemsPanel = new Panel(this, 340, h - 150 - 150, 150, 150, 3, 6);
         navCenterPanel = new Panel(this, 243, h - 120 - 211, 95, 211, 1, 4).addNames(TextArrays.navCenterPanelNames);
@@ -68,6 +69,8 @@ public class MainReadout extends Readout {
                 mainSystemsPanel.render(shape, 0, false);
                 if (mainSystemsPanel.Button(click, new Vector2(2, 3), pMousePressed))
                     scene = 11;
+                if (mainSystemsPanel.Button(click, new Vector2(2, 1), pMousePressed))
+                    scene = 12;
                 break;
             case 11:
                 // Navigational Panel
@@ -205,7 +208,7 @@ public class MainReadout extends Readout {
                 } else if (navTopPanel.Button(click, new Vector2(3, 0), pMousePressed)) {
                     chart.scene = 3;
                 } else if (navTopPanel.Button(click, new Vector2(4, 0), pMousePressed)) {
-                    chart.selected = s.sectorCoords;
+                    chart.selected = new Vector3(s.sectorCoords);
                     chart.selectedSector = new Vector2(chart.convertIndexToVector(s.sectorCoords.x).x,
                             chart.convertIndexToVector(s.sectorCoords.x).y);
                     chart.scene = 3;
@@ -256,17 +259,28 @@ public class MainReadout extends Readout {
                 }
                 circleButton(batch, click, 890 - x, 100, 100, 100, pMousePressed);
                 break;
+            case 12:
+                s.getMining().renderMiningSystem(this, click, pMousePressed);
+                break;
             case 2:
                 engMainPanel.textRenderer(batch, font);
                 engSidePanel.textRenderer(batch, font);
-                if(engMainPanel.Button(click, new Vector2(3, 0), pMousePressed)){
+                if (engMainPanel.Button(click, new Vector2(3, 0), pMousePressed)) {
                     s.getWarpCore().disable();
                 }
 
-                if(engMainPanel.Button(click, new Vector2(2, 0), pMousePressed)){
+                if (engMainPanel.Button(click, new Vector2(2, 0), pMousePressed)) {
                     s.getWarpCore().enable();
                 }
-            break;
+
+                if (engSidePanel.Button(click, new Vector2(0, 3), pMousePressed)) {
+                    s.getImpulse().disable();
+                }
+
+                if (engSidePanel.Button(click, new Vector2(0, 2), pMousePressed)) {
+                    s.getImpulse().enable();
+                }
+                break;
         }
     }
 

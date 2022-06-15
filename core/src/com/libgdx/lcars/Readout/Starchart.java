@@ -6,18 +6,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.libgdx.lcars.MyShapeRenderer;
 import com.libgdx.lcars.Panel;
-import com.libgdx.lcars.longVector;
 import com.libgdx.lcars.SpaceTravel.Sector;
 
 public class Starchart extends Readout {
     final Vector2 imageSize = new Vector2(228, 173);
 
-    public Sector[][] s;
+    private Sector[][] s;
 
     public Vector2 targetingPointLoc;
     public Vector3 selected;
@@ -26,23 +24,14 @@ public class Starchart extends Readout {
 
     private Texture tacticalDisplaySurroundings;
 
-    public longVector limits;
 
     public boolean isClicked = false;
 
-    Starchart(float x, float y) {
+    Starchart(Sector[][] s, float x, float y) {
         super(x, y, 228, 173);
-        limits = new longVector(30, w - 30, 30, h - 40);
-        s = new Sector[5][4];
+        this.s = s;
         selected = new Vector3(0, 0, 1);
-        int index = 0;
-        for (int j = 0; j < 4; j++) {
-            for (int i = 0; i < 5; i++) {
-                targetingPointLoc = new Vector2(imageSize.x / 2, imageSize.y / 2);
-                s[i][j] = new Sector(new Vector2(x, y), new Vector2(i, j), index, randomSysCoords(7));
-                index++;
-            }
-        }
+        targetingPointLoc = new Vector2(imageSize.x / 2, imageSize.y / 2);
         tacticalDisplaySurroundings = new Texture(Gdx.files.internal("Tactical Display Surroundings.png"));
     }
 
@@ -250,13 +239,5 @@ public class Starchart extends Readout {
         rect(Color.BLACK, 218, 0, 10, 173);
         shapeRenderer(renderer);
         isClicked = false;
-    }
-
-    private Vector2[] randomSysCoords(int amount) {
-        Vector2[] r = new Vector2[amount];
-        for (int i = 0; i < amount; i++) {
-            r[i] = new Vector2(MathUtils.random(limits.x, limits.y), MathUtils.random(limits.z, limits.w));
-        }
-        return r;
     }
 }

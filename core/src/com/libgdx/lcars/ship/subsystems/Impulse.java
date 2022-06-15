@@ -3,8 +3,8 @@ package com.libgdx.lcars.ship.subsystems;
 import com.libgdx.lcars.Readout.Starchart;
 import com.libgdx.lcars.SpaceTravel.Planet;
 import com.libgdx.lcars.ship.Ship;
-import com.libgdx.lcars.ship.cargo.Cargo;
-import com.libgdx.lcars.ship.cargo.ImpulseFuel;
+import com.libgdx.lcars.ship.cargosystem.Cargo;
+import com.libgdx.lcars.ship.cargosystem.ImpulseFuel;
 
 import static com.badlogic.gdx.math.MathUtils.map;
 

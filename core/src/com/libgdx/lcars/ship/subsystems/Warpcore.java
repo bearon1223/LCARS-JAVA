@@ -5,8 +5,8 @@ import com.libgdx.lcars.Readout.Starchart;
 import com.libgdx.lcars.SpaceTravel.Sector;
 import com.libgdx.lcars.SpaceTravel.Starsystem;
 import com.libgdx.lcars.ship.Ship;
-import com.libgdx.lcars.ship.cargo.Cargo;
-import com.libgdx.lcars.ship.cargo.WarpFuel;
+import com.libgdx.lcars.ship.cargosystem.Cargo;
+import com.libgdx.lcars.ship.cargosystem.WarpFuel;
 
 import static com.badlogic.gdx.math.MathUtils.map;
 
@@ -40,7 +40,7 @@ public class Warpcore extends Subsystem {
 
         if (traveledDistance < travelDistance && startTravel && isEnabled) {
             s.isAttacking = false;
-            cargo.removeItem(fuel, map(0, 7, 0.5f, 1, speed));
+            cargo.removeItemsContinuous(fuel, map(0, 7, 0.5f, 1, speed));
             traveledDistance += speed / 6;
         }
         if (traveledDistance >= travelDistance && s.isTravelingWarp) {
@@ -51,14 +51,6 @@ public class Warpcore extends Subsystem {
             tD.currentSector = destination.arrayID;
             s.isTravelingWarp = false;
         }
-    }
-
-    public void disable(){
-        isEnabled = false;
-    }
-
-    public void enable() {
-        isEnabled = true;
     }
 
     public void update() {

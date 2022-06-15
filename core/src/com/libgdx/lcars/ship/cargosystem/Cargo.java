@@ -1,4 +1,4 @@
-package com.libgdx.lcars.ship.cargo;
+package com.libgdx.lcars.ship.cargosystem;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;

@@ -114,25 +114,25 @@ public class MainScreen implements Screen {
                 mainSideMenu.clickArray(app.click, mReadout, TextArrays.mainSideMenuClickID, pMousePressed);
 
                 app.playerShip.getWarpCore().travel(mReadout.getStarchart(),
-                                mReadout.getStarchart().s[(int) mReadout.getStarchart().currentSector.x][(int) mReadout
+                                app.playerShip.s[(int) mReadout.getStarchart().currentSector.x][(int) mReadout
                                                 .getStarchart().currentSector.y],
-                                mReadout.getStarchart().s[(int) mReadout.getStarchart().selectedSector.x][(int) mReadout
+                                app.playerShip.s[(int) mReadout.getStarchart().selectedSector.x][(int) mReadout
                                                 .getStarchart().selectedSector.y],
-                                mReadout.getStarchart().s[(int) mReadout.getStarchart().currentSector.x][(int) mReadout
+                                app.playerShip.s[(int) mReadout.getStarchart().currentSector.x][(int) mReadout
                                                 .getStarchart().currentSector.y]
                                                                 .getSystem((int) app.playerShip.sectorCoords.y),
-                                mReadout.getStarchart().s[(int) mReadout.getStarchart().selectedSector.x][(int) mReadout
+                                app.playerShip.s[(int) mReadout.getStarchart().selectedSector.x][(int) mReadout
                                                 .getStarchart().selectedSector.y]
                                                                 .getSystem((int) mReadout.getStarchart().selected.y),
                                 app.playerShip.isTravelingWarp, mReadout.selectedSpeed);
 
                 app.playerShip.getImpulse().travel(mReadout.getStarchart(),
-                                mReadout.getStarchart().s[(int) mReadout.getStarchart().convertIndexToVector(
+                                app.playerShip.s[(int) mReadout.getStarchart().convertIndexToVector(
                                                 app.playerShip.sectorCoords.x).x][(int) mReadout.getStarchart()
                                                                 .convertIndexToVector(app.playerShip.sectorCoords.x).y]
                                                                                 .getSystem((int) app.playerShip.sectorCoords.y)
                                                                                 .getPlanet((int) app.playerShip.sectorCoords.z),
-                                mReadout.getStarchart().s[(int) mReadout.getStarchart().convertIndexToVector(
+                                app.playerShip.s[(int) mReadout.getStarchart().convertIndexToVector(
                                                 app.playerShip.sectorCoords.x).x][(int) mReadout.getStarchart()
                                                                 .convertIndexToVector(app.playerShip.sectorCoords.x).y]
                                                                                 .getSystem((int) app.playerShip.sectorCoords.y)

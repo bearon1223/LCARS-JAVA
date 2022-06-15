@@ -1,4 +1,4 @@
-package com.libgdx.lcars.ship.cargo;
+package com.libgdx.lcars.ship.cargosystem;
 
 import static com.badlogic.gdx.math.MathUtils.map;
 
@@ -55,6 +55,7 @@ public class CargoPanel extends Panel {
         }
     }
 
+    @Override
     public void render(Readout r) {
         int offset = 5;
         Vector2 rectSize = new Vector2((size.x) / panelCount.x, (size.y) / panelCount.y);

@@ -11,4 +11,12 @@ public class Subsystem {
     public boolean isEnabled() {
         return isEnabled;
     }
+
+    public void disable(){
+        isEnabled = false;
+    }
+
+    public void enable() {
+        isEnabled = true;
+    }
 }
