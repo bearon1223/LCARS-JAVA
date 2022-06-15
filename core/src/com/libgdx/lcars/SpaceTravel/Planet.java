@@ -9,17 +9,23 @@ import com.libgdx.lcars.ship.Ship;
 public class Planet {
     public int size;
     private int id;
-    private Ship[] ship;
+    Ship ship;
     public String name;
+    boolean hasShip = false;
 
     public Planet(int id, int size, String name) {
         this.size = size;
         this.id = id;
         this.name = name;
+        if (Math.round(MathUtils.random(0, 5)) == 1) {
+            hasShip = true;
+            System.out.println(id + ", " + name);
+        }
     }
 
     public Planet(int id) {
-        this(id, MathUtils.random(15, 23), PlanetNames.randomName[(int) (MathUtils.random(0, PlanetNames.randomName.length-1))]);
+        this(id, MathUtils.random(15, 23),
+                PlanetNames.randomName[(int) (MathUtils.random(0, PlanetNames.randomName.length - 1))]);
     }
 
     public void render(MyShapeRenderer renderer, float yCoord) {
@@ -30,14 +36,35 @@ public class Planet {
         else
             renderer.setColor(Color.valueOf("#F5D18FFF"));
         // noStroke();
-        if (id == 0)
-            renderer.ellipse(450, yCoord - size / 2, size, size);
-        if (id == 1)
-            renderer.ellipse(490, yCoord - size / 2, size, size);
-        if (id == 2)
-            renderer.ellipse(540, yCoord - size / 2, size, size);
-        if (id == 3)
-            renderer.ellipse(590, yCoord - size / 2, size, size);
+        if (hasShip) {
+            if (id == 0)
+                renderer.ellipse(450, yCoord - size / 2, size, size);
+            if (id == 1)
+                renderer.ellipse(490, yCoord - size / 2, size, size);
+            if (id == 2)
+                renderer.ellipse(540, yCoord - size / 2, size, size);
+            if (id == 3)
+                renderer.ellipse(590, yCoord - size / 2, size, size);
+            renderer.setColor(Color.WHITE);
+            if (id == 0)
+                renderer.ellipse(450 + size / 2, yCoord - 3 / 2, 3, 3);
+            if (id == 1)
+                renderer.ellipse(490 + size / 2, yCoord - 3 / 2, 3, 3);
+            if (id == 2)
+                renderer.ellipse(540 + size / 2, yCoord - 3 / 2, 3, 3);
+            if (id == 3)
+                renderer.ellipse(590 + size / 2, yCoord - 3 / 2, 3, 3);
+        } else {
+            if (id == 0)
+                renderer.ellipse(450, yCoord - size / 2, size, size);
+            if (id == 1)
+                renderer.ellipse(490, yCoord - size / 2, size, size);
+            if (id == 2)
+                renderer.ellipse(540, yCoord - size / 2, size, size);
+            if (id == 3)
+                renderer.ellipse(590, yCoord - size / 2, size, size);
+        }
+
     }
 
     public void renderPlanetSystem(MyShapeRenderer renderer, Vector2 tDloc, Vector2 tDsize, float yCoord) {
@@ -47,7 +74,7 @@ public class Planet {
             renderer.setColor(Color.valueOf("#35DCEDFF"));
         else
             renderer.setColor(Color.valueOf("#F5D18FFF"));
-            
+
         renderer.ellipse((tDloc.x + tDsize.x / 2) - (size * 2), yCoord - (size * 2), size * 4, size * 4);
 
         // fill(255);
@@ -60,6 +87,10 @@ public class Planet {
         // if (shipCoordinates.x == id) mapEllipse(map(shipCoordinates.y, 0, 100,
         // tDloc.x, tDloc.x+tDsize.x), map(shipCoordinates.z, 0, 100, tDloc.y,
         // tDloc.y+tDsize.y), 5, 5);
+    }
+
+    public int getID() {
+        return id;
     }
 
     public void update() {

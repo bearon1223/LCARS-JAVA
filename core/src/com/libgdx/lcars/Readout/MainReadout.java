@@ -25,11 +25,14 @@ public class MainReadout extends Readout {
     private Panel navBottomPanel;
     private Sound click;
 
+    private Panel engMainPanel;
+    private Panel engSidePanel;
+
     public float selectedSpeed;
 
     public Ship s;
 
-    private Starchart chart;
+    protected Starchart chart;
 
     public MainReadout(Ship s, float x, float y, float w, float h) {
         super(x, y, w, h);
@@ -42,9 +45,11 @@ public class MainReadout extends Readout {
         mainSystemsPanel.rename("Tactical", 5, 1);
         mainSystemsPanel.rename("Mining", 5, 2);
 
+        engMainPanel = new Panel(this, 160, 10, 450, 100, 5, 1).addNames(TextArrays.engMainPanelNames);
+        engSidePanel = new Panel(this, w - 125, 110, 130, h - 110, 1, 5).addNames(TextArrays.engSidePanelNames);
+
         chart = new Starchart(x + 10, h - 310);
 
-        // tD = new TacticalDisplay(x + 10, y + 150);
         navSystemsPanel = new Panel(this, 340, h - 150 - 150, 150, 150, 3, 6);
         navCenterPanel = new Panel(this, 243, h - 120 - 211, 95, 211, 1, 4).addNames(TextArrays.navCenterPanelNames);
         navTopPanel = new Panel(this, 120, h - 120, w - 125, 120, 6, 1).addNames(TextArrays.navTopPanelNames);
@@ -70,11 +75,12 @@ public class MainReadout extends Readout {
 
                 chart.shapeRenderer(shape, click, navTopPanel, pMousePressed);
                 break;
+            case 2:
+                engMainPanel.render(shape, 0, false);
+                engSidePanel.render(shape, 0, false);
+                break;
             case 7:
                 s.getCargo().render(shape, click, pMousePressed, this);
-                break;
-            default:
-                // rect(new Color(1, 1, 1, 1), 0, 0, scene * 50, 20);
                 break;
         }
     }
@@ -127,17 +133,20 @@ public class MainReadout extends Readout {
                                 + String.valueOf(
                                         Math.round((s.getWarpCore().travelDistance - s.getWarpCore().traveledDistance)))
                                 + "LY", 10, h - 130, 0.7f);
-                }/*else if (impulse.travelDistance - wc.traveledDistance != 0) {
-                    if (second() % 2 == 0 && (!wc.isEnabled))
-                        fill(255, 100, 100);
+                } else if (s.getImpulse().travelDistance - s.getWarpCore().traveledDistance != 0) {
+                    Color c = new Color(Color.WHITE);
+                    if (Math.floor(System.currentTimeMillis() / 1000) % 2 == 0 && (!s.getWarpCore().isEnabled()))
+                        c = new Color(1, 0.39f, 0.39f, 1);
                     else
-                        fill(255);
-                    if (!impulse.isEnabled)
-                        displayText("Error: No Active Impulse Engines", 10, 130, tD.originalSize.x, 20);
-                    else if (impulse.travelDistance - wc.traveledDistance != 0)
-                        displayText("Distance Left: " + str(round(impulse.travelDistance - impulse.traveledDistance))
-                                + "AU", 10, 130, tD.originalSize.x, 20);
-                }*/ else
+                        c = new Color(Color.WHITE);
+                    if (!s.getImpulse().isEnabled())
+                        displayText(c, "Error: No Active Impulse Engines", 10, h - 130, 0.7f);
+                    else if (s.getImpulse().travelDistance - s.getWarpCore().traveledDistance != 0)
+                        displayText(c, "Distance Left: "
+                                + String.valueOf(
+                                        Math.round(s.getImpulse().travelDistance - s.getImpulse().traveledDistance))
+                                + "AU", 10, h - 130, 0.7f);
+                } else
                     displayText("At Destination", 10, h - 130, 0.7f);
 
                 if (navTopPanel.Button(click, new Vector2(0, 0), pMousePressed)) {
@@ -149,10 +158,27 @@ public class MainReadout extends Readout {
                 } else if (navTopPanel.Button(click, new Vector2(3, 0), pMousePressed)) {
                     chart.scene = 3;
                 } else if (navTopPanel.Button(click, new Vector2(4, 0), pMousePressed)) {
-                    // chart.selected = new Vector3(coordinates.x, coordinates.y, coordinates.z);
-                    // chart.selectedSector = chart.convertIndexToVector(coordinates.x);
-                    // chart.scene = 3;
+                    chart.selected = s.sectorCoords;
+                    chart.selectedSector = new Vector2(chart.convertIndexToVector(s.sectorCoords.x).x,
+                            chart.convertIndexToVector(s.sectorCoords.x).y);
+                    chart.scene = 3;
                 }
+
+                if (s.getImpulse().traveledDistance - s.getImpulse().travelDistance != 0) {
+                    if (navCenterPanel.Button(click, new Vector2(0, 1), pMousePressed) && s.getImpulse().isEnabled()) {
+                        s.isTravelingImpulse = true;
+                        selectedSpeed = 0.33f;
+                    } else if (navCenterPanel.Button(click, new Vector2(0, 2), pMousePressed)
+                            && s.getImpulse().isEnabled()) {
+                        s.isTravelingImpulse = true;
+                        selectedSpeed = 0.66f;
+                    } else if (navCenterPanel.Button(click, new Vector2(0, 3), pMousePressed)
+                            && s.getImpulse().isEnabled()) {
+                        s.isTravelingImpulse = true;
+                        selectedSpeed = 1;
+                    }
+                }
+
                 if (navBottomPanel.Button(click, new Vector2(0, 0), pMousePressed) && (s.getWarpCore().isEnabled())) {
                     s.isTravelingWarp = true;
                     selectedSpeed = 1;

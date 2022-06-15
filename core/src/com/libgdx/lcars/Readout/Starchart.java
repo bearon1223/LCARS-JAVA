@@ -60,7 +60,7 @@ public class Starchart extends Readout {
         return (vector.x > x && vector.y > y && vector.x < x + w && vector.y < y + h);
     }
 
-    protected Vector3 convertIndexToVector(float index) {
+    public Vector3 convertIndexToVector(float index) {
         Vector3 finalConversion = new Vector3(69, 69, 69);
         if (index <= 4)
             finalConversion = new Vector3(index, 0, 0);

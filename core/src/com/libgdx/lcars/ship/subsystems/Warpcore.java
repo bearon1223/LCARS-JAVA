@@ -53,10 +53,6 @@ public class Warpcore extends Subsystem {
         }
     }
 
-    public boolean isEnabled() {
-        return isEnabled;
-    }
-
     public void update() {
         if (isEnabled) {
             cargo.removeItem(fuel, 0.2f);

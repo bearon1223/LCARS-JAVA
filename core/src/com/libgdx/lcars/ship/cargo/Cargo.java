@@ -105,7 +105,7 @@ public class Cargo {
     }
 
     public void addItem(Item item, float amount) {
-        if (currentStorage + amount < maxStorage)
+        if (currentStorage + amount <= maxStorage)
             item.addItems(amount);
         else
             System.out.println("Error: Not enough Storage");

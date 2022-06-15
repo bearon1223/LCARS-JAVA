@@ -19,8 +19,9 @@ public class Ship {
     // Planet, X, Y
     public Vector3 coordinates = new Vector3(1, 50, 50);
 
-    private boolean isPlayer;
+    private boolean isPlayer = false;
     public boolean isTravelingWarp = false;
+    public boolean isTravelingImpulse = false;
     public boolean isAttacking = false;
 
     public Ship(boolean isPlayer) {
@@ -28,6 +29,7 @@ public class Ship {
         cargo = new Cargo(5000, isPlayer);
         // 5 KiloLiters max storage
         wc = new Warpcore(this, cargo);
+        impulse = new Impulse(this, cargo);
     }
 
     public Cargo getCargo() {
@@ -35,8 +37,11 @@ public class Ship {
     }
 
     public void update() {
-        wc.update();
-        cargo.update();
+        if (isPlayer) {
+            wc.update();
+            impulse.update();
+            cargo.update();
+        }
     }
 
     public Warpcore getWarpCore() {

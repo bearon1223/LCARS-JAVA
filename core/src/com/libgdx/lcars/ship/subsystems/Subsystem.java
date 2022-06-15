@@ -7,4 +7,8 @@ public class Subsystem {
         this.power = startingPower;
         this.hp = startingHP;
     }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
 }

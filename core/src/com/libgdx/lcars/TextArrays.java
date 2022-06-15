@@ -70,12 +70,12 @@ public final class TextArrays {
                         { generateRandomString(), generateRandomString() },
         };
 
-        public static final String[][] auxMainPanelNames = {
+        public static final String[][] engMainPanelNames = {
                         // eject, rerout reactor power, startup, shutDown, replaceDilithium
                         { "EJECT CORE", "REROUT POWER", "STARTUP", "EMERGENCY SHUTDOWN", "REPLACE REACTION MASS" }
         };
 
-        public static final String[][] auxSidePanelNames = {
+        public static final String[][] engSidePanelNames = {
                         // Replace Reaction Mass, Shutdown, Startup, Powersave, reroute reactor power
                         { "REPLACE DEUTERIUM" },
                         { "SHUTDOWN" },
