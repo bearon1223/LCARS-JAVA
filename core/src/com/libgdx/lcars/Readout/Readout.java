@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.libgdx.lcars.MyShapeRenderer;
 
+import static com.badlogic.gdx.math.MathUtils.clamp;
+
 public class Readout {
     public float x, y, w, h;
     public int scene;
@@ -47,7 +49,7 @@ public class Readout {
     }
 
     public void rect(Color c, float x, float y, float w, float h, float r) {
-        rectCoordinates.add(new RectHolder(c, this.x + x, this.y + y, w, h, r));
+        rectCoordinates.add(new RectHolder(c, this.x + x, this.y + y, w, h, clamp(r, 0, h)));
     }
 
     public void image(Texture texture, float x, float y, float w, float h) {

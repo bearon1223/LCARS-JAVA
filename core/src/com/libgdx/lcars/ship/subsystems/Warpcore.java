@@ -53,9 +53,18 @@ public class Warpcore extends Subsystem {
         }
     }
 
+    public void disable(){
+        isEnabled = false;
+    }
+
+    public void enable() {
+        isEnabled = true;
+    }
+
     public void update() {
         if (isEnabled) {
-            cargo.removeItem(fuel, 0.2f);
+            cargo.removeItemsContinuous(fuel, 0.3f);
+            cargo.addItemsContinuous(cargo.getWaste(), 0.15f);
         }
         if(cargo.getWarpFuel().getTotalWeight() < 5){
             isEnabled = false;

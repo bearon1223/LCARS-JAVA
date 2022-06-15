@@ -6,12 +6,14 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Item {
     protected final int perItemVolume;
+    protected final float perItemCost;
     protected final int perItemWeight;
     protected float itemCount;
     protected Texture texture;
     protected String name;
 
-    public Item(FileHandle file, String name, int perItemVolume, int perItemWeight, int startingCount) {
+    public Item(FileHandle file, String name, int perItemVolume, int perItemWeight, int startingCount, float perItemCost) {
+        this.perItemCost = perItemCost;
         this.perItemVolume = perItemVolume;
         this.perItemWeight = perItemWeight;
         itemCount = startingCount;
@@ -31,12 +33,20 @@ public class Item {
         return itemCount;
     }
 
-    public void addItems(float amount) {
+    public void addItemsContinuous(float amount) {
         itemCount += (amount * Gdx.graphics.getDeltaTime());
     }
 
-    public void removeItems(float amount) {
+    public void removeItemsContinuous(float amount) {
         itemCount -= (amount * Gdx.graphics.getDeltaTime());
+    }
+
+    public void addItems(float amount) {
+        itemCount += amount;
+    }
+
+    public void removeItems(float amount) {
+        itemCount -= amount;
     }
 
     public String getName() {

@@ -16,6 +16,7 @@ public class Impulse extends Subsystem {
 
     public float travelDistance = 0;
     public float traveledDistance = 0;
+
     public Impulse(Ship ship, Cargo cargo, float startingPower, float startingHP) {
         super(startingPower, startingHP);
         this.s = ship;
@@ -28,24 +29,30 @@ public class Impulse extends Subsystem {
     }
 
     public void update() {
-        cargo.removeItem(fuel, 0.3f);
+        if (isEnabled) {
+            cargo.removeItemsContinuous(fuel, 0.2f);
+            cargo.addItemsContinuous(cargo.getWaste(), 0.1f);
+        }
+        if(cargo.getImpulseFuel().getTotalWeight() < 5){
+            isEnabled = false;
+        }
     }
 
     public void travel(Starchart tD, Planet current, Planet destination, boolean startTravel, float speed) {
-        travelDistance = map(0, 3, 0, 10, Math.abs(current.getID()-destination.getID()));
+        travelDistance = map(0, 3, 0, 10, Math.abs(current.getID() - destination.getID()));
         if (traveledDistance < travelDistance && startTravel && isEnabled) {
-          s.isAttacking = false;
-          cargo.removeItem(fuel, 0.2f);
-          traveledDistance += speed/12;
+            s.isAttacking = false;
+            cargo.removeItem(fuel, 0.2f);
+            traveledDistance += speed / 12;
         }
         if (traveledDistance >= travelDistance && s.isTravelingImpulse) {
-          s.isAttacking = false;
-          traveledDistance = 0;
-          s.sectorCoords.z = destination.getID();
-          s.coordinates.x = destination.getID();
-          s.isTravelingImpulse = false;
-          tD.selected.z = destination.getID();
+            s.isAttacking = false;
+            traveledDistance = 0;
+            s.sectorCoords.z = destination.getID();
+            s.coordinates.x = destination.getID();
+            s.isTravelingImpulse = false;
+            tD.selected.z = destination.getID();
         }
-      }
-    
+    }
+
 }

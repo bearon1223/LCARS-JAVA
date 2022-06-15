@@ -30,6 +30,8 @@ public class MainReadout extends Readout {
 
     public float selectedSpeed;
 
+    private int WCsegmantLight = 0;
+
     public Ship s;
 
     protected Starchart chart;
@@ -39,14 +41,15 @@ public class MainReadout extends Readout {
         this.s = s;
         standby = new Texture(Gdx.files.internal("Federation Standby.jpg"));
 
-        mainSystemsPanel = new Panel(this, 0, 0, w, h, 6, 5);
+        mainSystemsPanel = new Panel(this, 300, 0, w - 300, h, 3, 4);
 
-        mainSystemsPanel.rename("Navigation", 5, 0);
-        mainSystemsPanel.rename("Tactical", 5, 1);
-        mainSystemsPanel.rename("Mining", 5, 2);
+        mainSystemsPanel.rename("Navigation", 2, 0);
+        mainSystemsPanel.rename("Tactical", 2, 1);
+        mainSystemsPanel.rename("Mining", 2, 2);
+        mainSystemsPanel.rename("Repair", 2, 3);
 
-        engMainPanel = new Panel(this, 160, 10, 450, 100, 5, 1).addNames(TextArrays.engMainPanelNames);
-        engSidePanel = new Panel(this, w - 125, 110, 130, h - 110, 1, 5).addNames(TextArrays.engSidePanelNames);
+        engMainPanel = new Panel(this, 160, h - 100, 450, 100, 4, 1).addNames(TextArrays.engMainPanelNames);
+        engSidePanel = new Panel(this, w - 125, 10, 130, h - 110, 1, 5).addNames(TextArrays.engSidePanelNames);
 
         chart = new Starchart(x + 10, h - 310);
 
@@ -63,7 +66,7 @@ public class MainReadout extends Readout {
         switch (scene) {
             case 1:
                 mainSystemsPanel.render(shape, 0, false);
-                if (mainSystemsPanel.Button(click, new Vector2(5, 4), pMousePressed))
+                if (mainSystemsPanel.Button(click, new Vector2(2, 3), pMousePressed))
                     scene = 11;
                 break;
             case 11:
@@ -76,8 +79,52 @@ public class MainReadout extends Readout {
                 chart.shapeRenderer(shape, click, navTopPanel, pMousePressed);
                 break;
             case 2:
+                int offset = 10;
                 engMainPanel.render(shape, 0, false);
                 engSidePanel.render(shape, 0, false);
+
+                // 12 segmants
+                rect(new Color(0.78f, 0.78f, 0.78f, 1), 0, offset + 112, 150, 340 - 120 * 2 + 18, 50);
+                rect(new Color(0.39f, 0.39f, 0.39f, 1), 0, offset + 340 / 2 - 20, 150, 40, 3);
+                Color c1 = new Color();
+                if (s.getWarpCore().isEnabled())
+                    c1 = Color.WHITE;
+                else
+                    c1 = new Color(0.59f, 0.59f, 0.59f, 1);
+                rect(c1, 0, offset + 340 / 2 - 10, 150, 20);
+                shape.setColor(100, 100, 100, 1);
+                shape.ellipse(x + 150 / 2 - 25, offset + y + 340 / 2 - 25, 50, 50);
+                Color c2 = new Color();
+                if (s.getWarpCore().isEnabled())
+                    c2 = Color.WHITE;
+                else
+                    c2 = new Color(0.59f, 0.59f, 0.59f, 1);
+                shape.setColor(c2);
+                shape.ellipse(x + 150 / 2 - 12.5f, offset + y + 340 / 2 - 12.5f, 25, 25);
+
+                shape.setColor(new Color(0.39f, 0.39f, 0.39f, 1));
+                shape.rect(x + 150 / 2 - 2.5f, offset + y + 340 / 2 - 15, 5, 30);
+                for (int i = 0; i < 6; i++) {
+                    Color c3;
+                    if (WCsegmantLight == i)
+                        c3 = Color.valueOf("#95D2FFFF");
+                    else
+                        c3 = Color.valueOf("#0075CBFF");
+                    rect(c3, 10, offset + 20 * (i), 150 - 20, 20, 10);
+                }
+                for (int i = 0; i < 6; i++) {
+                    Color c3;
+                    if (WCsegmantLight == i)
+                        c3 = Color.valueOf("#95D2FFFF");
+                    else
+                        c3 = Color.valueOf("#0075CBFF");
+                    rect(c3, 10, offset + 20 * (5 - i) + (340 - 120), 150 - 20, 20, 10);
+                }
+
+                if (s.getWarpCore().isEnabled())
+                    WCsegmantLight = (int) Math.floor((System.currentTimeMillis() / 1000) % 6);
+                else
+                    WCsegmantLight = -1;
                 break;
             case 7:
                 s.getCargo().render(shape, click, pMousePressed, this);
@@ -209,6 +256,17 @@ public class MainReadout extends Readout {
                 }
                 circleButton(batch, click, 890 - x, 100, 100, 100, pMousePressed);
                 break;
+            case 2:
+                engMainPanel.textRenderer(batch, font);
+                engSidePanel.textRenderer(batch, font);
+                if(engMainPanel.Button(click, new Vector2(3, 0), pMousePressed)){
+                    s.getWarpCore().disable();
+                }
+
+                if(engMainPanel.Button(click, new Vector2(2, 0), pMousePressed)){
+                    s.getWarpCore().enable();
+                }
+            break;
         }
     }
 

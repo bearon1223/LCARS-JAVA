@@ -6,8 +6,8 @@ public final class TextArrays {
         public static final String[][] smallSettingsPanelNames = {
                         { "LCARS", generateRandomString() },
                         { "LOCK", "SYS INFO" },
-                        { "SYS TIME", generateRandomString() },
-                        { "LOG OFF", "ONLINE" },
+                        { generateRandomString(), generateRandomString() },
+                        { "LOG OFF", generateRandomString() },
         };
 
         public static final String[][] navBottomPanelNames = {
@@ -26,15 +26,15 @@ public final class TextArrays {
         };
 
         public static final String[][] cargoSelectionNames = {
-                        {"Dump Selected"}, 
-                        {"Transfer"}, 
-                        {"Move Up"}, 
-                        {"Move Down"}
+                        { "DUMP SELECTED" },
+                        { "SELL" },
+                        { "Move Up" },
+                        { "Move Down" }
         };
 
         public static final String[][] mainSideMenuNames = {
                         { "SYSTEM DIRECTORY" },
-                        { "ENGINE CONTROL" },
+                        { "ENGINEERING OVERVIEW" },
                         { "MED DIRECTORY" },
                         { "ANTENNA ARRAY" },
                         { "STELLAR MAPS" },
@@ -72,16 +72,15 @@ public final class TextArrays {
 
         public static final String[][] engMainPanelNames = {
                         // eject, rerout reactor power, startup, shutDown, replaceDilithium
-                        { "EJECT CORE", "REROUT POWER", "STARTUP", "EMERGENCY SHUTDOWN", "REPLACE REACTION MASS" }
+                        { "EJECT CORE", "POWER SAVE", "STARTUP", "SHUTDOWN" }
         };
 
         public static final String[][] engSidePanelNames = {
-                        // Replace Reaction Mass, Shutdown, Startup, Powersave, reroute reactor power
-                        { "REPLACE DEUTERIUM" },
+                        { generateRandomString() },
                         { "SHUTDOWN" },
                         { "ENABLE" },
                         { "POWER SAVE" },
-                        { "REROUT POWER" }
+                        { generateRandomString() }
         };
 
         public static String generateRandomString(int length) {
