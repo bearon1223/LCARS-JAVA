@@ -50,15 +50,17 @@ public class Warpcore extends Subsystem {
             s.coordinates.x = 1;
             tD.currentSector = destination.arrayID;
             s.isTravelingWarp = false;
+
+            // if(destinationS.getPlanet((int)s.coordinates.x).hasShip) destinationS.getPlanet((int) s.coordinates.x).ship = new Ship(false);
         }
     }
 
     public void update() {
         if (isEnabled) {
-            cargo.removeItemsContinuous(fuel, 0.3f);
-            cargo.addItemsContinuous(cargo.getWaste(), 0.15f);
+            cargo.removeItemsContinuous(fuel, 0.1f);
+            cargo.addItemsContinuous(cargo.getWaste(), 0.05f);
         }
-        if(cargo.getWarpFuel().getTotalWeight() < 5){
+        if (cargo.getWarpFuel().getTotalWeight() < 5) {
             isEnabled = false;
         }
         cargo.update();

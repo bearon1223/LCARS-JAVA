@@ -30,8 +30,8 @@ public class Impulse extends Subsystem {
 
     public void update() {
         if (isEnabled) {
-            cargo.removeItemsContinuous(fuel, 0.2f);
-            cargo.addItemsContinuous(cargo.getWaste(), 0.1f);
+            cargo.removeItemsContinuous(fuel, 0.05f);
+            cargo.addItemsContinuous(cargo.getWaste(), 0.025f);
         }
         if(cargo.getImpulseFuel().getTotalWeight() < 5){
             isEnabled = false;
@@ -52,6 +52,7 @@ public class Impulse extends Subsystem {
             s.coordinates.x = destination.getID();
             s.isTravelingImpulse = false;
             tD.selected.z = destination.getID();
+            // if(destination.hasShip) destination.ship = new Ship(false);
         }
     }
 

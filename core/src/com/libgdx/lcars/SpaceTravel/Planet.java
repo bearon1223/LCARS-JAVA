@@ -9,37 +9,42 @@ import com.libgdx.lcars.ship.cargosystem.Alloys;
 import com.libgdx.lcars.ship.cargosystem.ImpulseFuel;
 import com.libgdx.lcars.ship.cargosystem.WarpFuel;
 
+import static com.badlogic.gdx.math.MathUtils.map;
+
 public class Planet {
     public int size;
     private int id;
-    protected Ship ship;
+    public Ship ship;
+    public Ship playerShip;
     public String name;
-    protected boolean hasShip = false;
+    public boolean hasShip = false;
     protected Alloys planetAlloys;
     protected WarpFuel dilithium;
     protected ImpulseFuel deuterium;
 
-    public Planet(int id, int size, String name) {
+    public Planet(Ship s, int id, int size, String name) {
         this.size = size;
         this.id = id;
         this.name = name;
-        // if (Math.round(MathUtils.random(0, 15)) == 1) {
-        //     hasShip = true;
-        //     System.out.println(id + ", " + name);
-        // }
+        if (Math.round(MathUtils.random(0, 3)) == 1) {
+            hasShip = true;
+            ship = new Ship(false);
+        }
+        playerShip = s;
         planetAlloys = new Alloys((int) (Math.floor(MathUtils.random(300, 400))));
         dilithium = new WarpFuel((int) (Math.floor(MathUtils.random(50, 150))));
         deuterium = new ImpulseFuel((int) (Math.floor(MathUtils.random(100, 300))));
     }
 
-    public Planet(int id) {
-        this(id, MathUtils.random(15, 23),
+    public Planet(Ship s, int id) {
+        this(s, id, MathUtils.random(15, 23),
                 PlanetNames.randomName[(int) (MathUtils.random(0, PlanetNames.randomName.length - 1))]);
     }
 
     public Alloys getAlloys() {
         return planetAlloys;
     }
+
     public WarpFuel getWarpFuel() {
         return dilithium;
     }
@@ -48,7 +53,7 @@ public class Planet {
         return deuterium;
     }
 
-    public boolean hasResources(){
+    public boolean hasResources() {
         return (planetAlloys.getItemCount() > 0 || dilithium.getItemCount() > 0 || deuterium.getItemCount() > 0);
     }
 
@@ -106,7 +111,11 @@ public class Planet {
         // map(shipTest.loc.z, 0, 100, tDloc.y, tDloc.y+tDsize.y), 5, 5);
         // mapEllipse(map(shipTest.targetCoords.y, 0, 100, tDloc.x, tDloc.x+tDsize.x),
         // map(shipTest.targetCoords.z, 0, 100, tDloc.y, tDloc.y+tDsize.y), 5, 5);
-
+        if (ship != null) {
+            renderer.setColor(Color.WHITE);
+            renderer.circle(tDloc.x+map(0, 100, 0, tDsize.x, ship.coordinates.y), tDloc.y+map(0, 100, 0, tDsize.y, ship.coordinates.z), 5);
+            ship.update();
+        }
         // fill(50, 50, 255);
         // if (shipCoordinates.x == id) mapEllipse(map(shipCoordinates.y, 0, 100,
         // tDloc.x, tDloc.x+tDsize.x), map(shipCoordinates.z, 0, 100, tDloc.y,
@@ -122,5 +131,6 @@ public class Planet {
         // if (shipTest.isAtCoords(shipTest.targetCoords)) shipTest.targetCoords =
         // shipTest.pickPoint(id, false);
         // shipTest.goToCoords(shipTest.targetCoords);
+        // System.out.println("isUpdating");
     }
 }

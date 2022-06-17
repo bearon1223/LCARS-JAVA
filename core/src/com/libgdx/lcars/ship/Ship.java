@@ -1,5 +1,6 @@
 package com.libgdx.lcars.ship;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -28,10 +29,16 @@ public class Ship {
     // Planet, X, Y
     public Vector3 coordinates = new Vector3(1, 50, 50);
 
+    // only for AI ships
+    private Vector3 playerLocation = new Vector3(1, 50, 50);
+    private Vector3 randomCoordinates = new Vector3(1, 1, 1);
+
     private boolean isPlayer = false;
     public boolean isTravelingWarp = false;
     public boolean isTravelingImpulse = false;
     public boolean isAttacking = false;
+
+    // private float hullHP = 100;
 
     public Ship(boolean isPlayer) {
         limits = new longVector(30, 228 - 30, 30, 173 - 40);
@@ -40,13 +47,17 @@ public class Ship {
         // 5 KiloLiters max storage
         wc = new Warpcore(this, cargo);
         impulse = new Impulse(this, cargo);
-        mining = new MiningSystem(cargo);
+        mining = new MiningSystem(this, cargo);
         s = new Sector[5][4];
         int index = 0;
-        for (int j = 0; j < 4; j++) {
-            for (int i = 0; i < 5; i++) {
-                s[i][j] = new Sector(new Vector2(170 + 110 + 110 + 10, 600 - (201 + 25) - 5 - 310), new Vector2(i, j), index, randomSysCoords(7));
-                index++;
+        if (isPlayer) {
+            for (int j = 0; j < 4; j++) {
+                for (int i = 0; i < 5; i++) {
+                    s[i][j] = new Sector(this, new Vector2(170 + 110 + 110 + 10, 600 - (201 + 25) - 5 - 310),
+                            new Vector2(i, j),
+                            index, randomSysCoords(7));
+                    index++;
+                }
             }
         }
     }
@@ -61,10 +72,16 @@ public class Ship {
             impulse.update();
             cargo.update();
             if (mining.getActive()) {
-                mining.minePlanet(s[(int) convertIndexToVector(sectorCoords.x).x][(int) convertIndexToVector(sectorCoords.y).y].getSystem((int)sectorCoords.z).getPlanet((int)coordinates.x));
+                mining.minePlanet(
+                        s[(int) convertIndexToVector(sectorCoords.x).x][(int) convertIndexToVector(sectorCoords.x).y]
+                                .getSystem((int) sectorCoords.z).getPlanet((int) coordinates.x));
             }
-            // System.out.println(convertIndexToVector(sectorCoords.x));
-            // System.out.println(s[(int) convertIndexToVector(sectorCoords.x).x][(int) convertIndexToVector(sectorCoords.x).y].getSystem((int)sectorCoords.y).getPlanet((int)sectorCoords.z).name);
+            // s[(int) convertIndexToVector(sectorCoords.x).x][(int) convertIndexToVector(sectorCoords.x).y]
+            //         .getSystem((int) sectorCoords.z).getPlanet((int) coordinates.x).update();
+            // System.out.println(s[(int) convertIndexToVector(sectorCoords.x).x][(int) convertIndexToVector(sectorCoords.x).y]
+            // .getSystem((int) sectorCoords.y).getPlanet((int) coordinates.x).name);
+        } else {
+            ai();
         }
     }
 
@@ -76,7 +93,7 @@ public class Ship {
         return mining;
     }
 
-    public Shields Sields() {
+    public Shields getShields() {
         return shields;
     }
 
@@ -109,5 +126,42 @@ public class Ship {
         else
             System.out.println("ur dum");
         return finalConversion;
+    }
+
+    private boolean within(Vector2 vector, float x, float y, float d) {
+        return (Math.abs(Math.hypot((vector.x) - (x), (vector.y) - (y))) <= d / 2);
+    }
+
+    private boolean isAtCoords(Vector3 coords) {
+        return within(new Vector2(coordinates.y, coordinates.z), coords.y, coords.z, 10);
+    }
+
+    public boolean isPlayerHere() {
+        return (playerLocation.x == coordinates.x);
+    }
+
+    public void setPlayerLoc(Vector3 playerLoc) {
+        playerLocation = new Vector3(playerLoc);
+    }
+
+    public void ai() {
+        // Planet, X, Y
+        float speed = 5;
+        // System.out.println("In AI");
+        if (!isAtCoords(randomCoordinates)) {
+                if (coordinates.y < randomCoordinates.y)
+                    coordinates.y += speed * Gdx.graphics.getDeltaTime();
+                if (coordinates.y > randomCoordinates.y)
+                    coordinates.y -= speed * Gdx.graphics.getDeltaTime();
+                // float slope = MathUtils.clamp(coordinates.z - randomCoordinates.z, 1, 50)
+                // / MathUtils.clamp(coordinates.y - randomCoordinates.y, 5, 100);
+                if (coordinates.z < randomCoordinates.z)
+                    coordinates.z += speed * Gdx.graphics.getDeltaTime();
+                if (coordinates.z > randomCoordinates.z)
+                    coordinates.z -= speed * Gdx.graphics.getDeltaTime();
+        } else {
+            // System.out.println("within is not working at all :(");
+            if(!isAttacking) randomCoordinates = new Vector3(1, MathUtils.random(0, 100), MathUtils.random(0, 100));
+        }
     }
 }

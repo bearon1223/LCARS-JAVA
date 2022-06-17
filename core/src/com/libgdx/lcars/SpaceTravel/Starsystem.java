@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.libgdx.lcars.MyShapeRenderer;
 import com.libgdx.lcars.longVector;
 import com.libgdx.lcars.Readout.Starchart;
+import com.libgdx.lcars.ship.Ship;
 
 import static com.badlogic.gdx.math.MathUtils.map;
 
@@ -15,7 +16,7 @@ public class Starsystem {
     public int id, r = 15, planetAmount;
     private longVector limits;
 
-    public Starsystem(Sector s, Vector2 loc, int id, int planetAmount) {
+    public Starsystem(Ship ship, Sector s, Vector2 loc, int id, int planetAmount) {
         p = new Planet[planetAmount];
         limits = new longVector(30, 228 - 30, 30, 173 - 40);
         this.s = s;
@@ -24,12 +25,12 @@ public class Starsystem {
         this.loc = new Vector2(loc.x + s.tacticalDisplayLoc.x, loc.y + s.tacticalDisplayLoc.y);
         this.id = id;
         for (int i = 0; i < planetAmount; i++) {
-            p[i] = new Planet(i);
+            p[i] = new Planet(ship, i);
         }
     }
 
-    public Starsystem(Sector s, Vector2 loc, int id) {
-        this(s, loc, id, Math.round(MathUtils.random(2, 4)));
+    public Starsystem(Ship ship, Sector s, Vector2 loc, int id) {
+        this(ship, s, loc, id, Math.round(MathUtils.random(2, 4)));
     }
 
     public void chooseColor(MyShapeRenderer renderer) {

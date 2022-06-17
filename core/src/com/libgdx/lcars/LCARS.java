@@ -19,8 +19,8 @@ public class LCARS extends Game {
 		font = new BitmapFont();
 		click = Gdx.audio.newSound(Gdx.files.internal("Click.wav"));
 		font.getData().setScale(1);
-		playerShip = new Ship(true);
 		this.setScreen(new LoginScene(this));
+		playerShip = new Ship(true);
 	}
 
 	@Override
