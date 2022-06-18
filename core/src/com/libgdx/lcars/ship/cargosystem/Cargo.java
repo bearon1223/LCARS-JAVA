@@ -53,26 +53,27 @@ public class Cargo {
         }
         cargoSelection = new Panel(1000 - 150 - 10, 30, 160, 369 - 30, new Vector2(1, 4))
                 .addNames(TextArrays.cargoSelectionNames);
+        {
+            itemValues[0] = warpFuel.getItemCount();
+            itemValues[1] = impulseFuel.getItemCount();
+            itemValues[2] = repairAlloys.getItemCount();
+            itemValues[3] = latinum.getItemCount();
+            itemValues[4] = supplies.getItemCount();
+            itemValues[5] = emptyItem3.getItemCount();
+            itemValues[6] = emptyItem4.getItemCount();
+            itemValues[7] = emptyItem5.getItemCount();
+            itemValues[8] = waste.getItemCount();
 
-        itemValues[0] = warpFuel.getItemCount();
-        itemValues[1] = impulseFuel.getItemCount();
-        itemValues[2] = repairAlloys.getItemCount();
-        itemValues[3] = latinum.getItemCount();
-        itemValues[4] = supplies.getItemCount();
-        itemValues[5] = emptyItem3.getItemCount();
-        itemValues[6] = emptyItem4.getItemCount();
-        itemValues[7] = emptyItem5.getItemCount();
-        itemValues[8] = waste.getItemCount();
-
-        items[0] = warpFuel;
-        items[1] = impulseFuel;
-        items[2] = repairAlloys;
-        items[3] = latinum;
-        items[4] = supplies;
-        items[5] = emptyItem3;
-        items[6] = emptyItem4;
-        items[7] = emptyItem5;
-        items[8] = waste;
+            items[0] = warpFuel;
+            items[1] = impulseFuel;
+            items[2] = repairAlloys;
+            items[3] = latinum;
+            items[4] = supplies;
+            items[5] = emptyItem3;
+            items[6] = emptyItem4;
+            items[7] = emptyItem5;
+            items[8] = waste;
+        }
 
         Texture[] textures = {
                 warpFuel.texture,
@@ -219,9 +220,9 @@ public class Cargo {
 
         r.displayText("Total Used: " + (Math.round(currentStorage / maxStorage * 10000) / 100f) + "%, "
                 + "Used Volume: " + Math.round(currentStorage) + "L, Remaining Volume: "
-                + Math.round(maxStorage - currentStorage) + "L", 10, 40);
-        r.rect(new Color(0.4f, 0.4f, 1f, 1f), 10, 0, r.w - 20, 20);
-        r.rect(new Color(0.7f, 0.7f, 1f, 1f), 10, 0, map(0, maxStorage, 0, r.w - 20, currentStorage), 20);
+                + Math.round(maxStorage - currentStorage) + "L", 0, 40);
+        r.rect(new Color(0.4f, 0.4f, 1f, 1f), 0, 0, r.w, 20);
+        r.rect(new Color(0.7f, 0.7f, 1f, 1f), 0, 0, map(0, maxStorage, 0, r.w, currentStorage), 20);
     }
 
     public void dispose() {

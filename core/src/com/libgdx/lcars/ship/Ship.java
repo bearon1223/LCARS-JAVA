@@ -30,7 +30,7 @@ public class Ship {
     public Vector3 coordinates = new Vector3(1, 50, 50);
 
     // only for AI ships
-    private Vector3 playerLocation = new Vector3(1, 50, 50);
+    // private Vector3 playerLocation = new Vector3(1, 50, 50);
     private Vector3 randomCoordinates = new Vector3(1, 1, 1);
 
     private boolean isPlayer = false;
@@ -76,10 +76,6 @@ public class Ship {
                         s[(int) convertIndexToVector(sectorCoords.x).x][(int) convertIndexToVector(sectorCoords.x).y]
                                 .getSystem((int) sectorCoords.z).getPlanet((int) coordinates.x));
             }
-            // s[(int) convertIndexToVector(sectorCoords.x).x][(int) convertIndexToVector(sectorCoords.x).y]
-            //         .getSystem((int) sectorCoords.z).getPlanet((int) coordinates.x).update();
-            // System.out.println(s[(int) convertIndexToVector(sectorCoords.x).x][(int) convertIndexToVector(sectorCoords.x).y]
-            // .getSystem((int) sectorCoords.y).getPlanet((int) coordinates.x).name);
         } else {
             ai();
         }
@@ -136,13 +132,13 @@ public class Ship {
         return within(new Vector2(coordinates.y, coordinates.z), coords.y, coords.z, 10);
     }
 
-    public boolean isPlayerHere() {
-        return (playerLocation.x == coordinates.x);
-    }
+    // public boolean isPlayerHere() {
+    //     return (playerLocation.x == coordinates.x);
+    // }
 
-    public void setPlayerLoc(Vector3 playerLoc) {
-        playerLocation = new Vector3(playerLoc);
-    }
+    // public void setPlayerLoc(Vector3 playerLoc) {
+    //     playerLocation = new Vector3(playerLoc);
+    // }
 
     public void ai() {
         // Planet, X, Y

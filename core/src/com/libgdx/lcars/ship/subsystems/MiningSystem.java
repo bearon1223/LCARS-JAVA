@@ -11,7 +11,7 @@ import com.libgdx.lcars.ship.cargosystem.Cargo;
 public class MiningSystem {
     private Cargo c;
     private boolean active = false;
-    private float mineSpeed = 5f;
+    private float mineSpeed = 2.5f;
 
     private Panel mainControlPanel;
     private Ship s;
@@ -50,7 +50,7 @@ public class MiningSystem {
         r.displayText(String.valueOf(active), 10, 10);
         mainControlPanel.render(r);
         if (active)
-            mainControlPanel.rename("Miner Status: ACTIVE", 0, 1);
+            mainControlPanel.rename("Miner Status: \nACTIVE", 0, 1);
         else
             mainControlPanel.rename("Miner Status: \nINACTIVE", 0, 1);
         mainControlPanel.rename("Mine Speed: " + String.valueOf(mineSpeed) + " items/sec", 0, 2);

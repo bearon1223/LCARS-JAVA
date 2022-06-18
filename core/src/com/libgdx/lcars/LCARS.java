@@ -35,5 +35,6 @@ public class LCARS extends Game {
 		batch.dispose();
 		font.dispose();
 		click.dispose();
+		playerShip.dispose();
 	}
 }
