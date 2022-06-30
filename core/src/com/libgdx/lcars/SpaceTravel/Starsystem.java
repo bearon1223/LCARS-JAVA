@@ -52,8 +52,6 @@ public class Starsystem {
     }
 
     public void renderSystemTiny(MyShapeRenderer renderer, Starchart t, Vector2 offset, Vector2 arrayID) {
-        // random(10, w-10), random(30, h-40);w=228, h=173
-        // if(arrayID.x==1 && arrayID.y == 1) println(loc.x);
         chooseColor(renderer);
         renderer.ellipse(t.x + ((offset.x) * (arrayID.x)) + map(0, limits.y, 3, 37, loc.x - t.x),
                 t.y + ((offset.y) * (arrayID.y)) + map(0, limits.w, 3, 37, loc.y - t.y),
@@ -67,10 +65,6 @@ public class Starsystem {
             p[i].render(renderer, yCoord);
         }
         renderer.setColor(255, 255, 255, 255);
-    }
-
-    public void displayText(String text, float x, float y, float w, float h) {
-        // text(text, ezMap(x, true), ezMap(y, false), ezMap(w, true), ezMap(h, false));
     }
 
     public float distanceSystem(Vector2 startingLoc) {

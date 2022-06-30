@@ -83,7 +83,7 @@ public class Readout {
          * Integer Legend
          * 11 5 22
          * 11 5 22
-         * 77 - 88
+         * 77 9 88
          * 33 6 44
          * 33 6 44
          */
@@ -103,6 +103,8 @@ public class Readout {
             return 7;
         if (button(click, x + w * 0.60f, (y + h * 0.43f), w * 0.40f, h * 0.14f, pMousePressed))
             return 8;
+        if (button(click, x+w * 0.43f, y + h * 0.43f, w * 0.14f, h * 0.14f, pMousePressed))
+            return 9;
         return 0;
     }
 

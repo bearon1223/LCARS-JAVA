@@ -13,8 +13,6 @@ import com.libgdx.lcars.Panel;
 import com.libgdx.lcars.TextArrays;
 import com.libgdx.lcars.ship.Ship;
 
-// import static com.badlogic.gdx.math.MathUtils.map;
-
 public class MainReadout extends Readout {
     private Texture standby;
 
@@ -185,7 +183,7 @@ public class MainReadout extends Readout {
                                 + "LY", 10, h - 130, 0.7f);
                 } else if (s.getImpulse().travelDistance - s.getWarpCore().traveledDistance != 0) {
                     Color c = new Color(Color.WHITE);
-                    if (Math.floor(System.currentTimeMillis() / 1000) % 2 == 0 && (!s.getWarpCore().isEnabled()))
+                    if (Math.floor(System.currentTimeMillis() / 1000) % 2 == 0 && (!s.getImpulse().isEnabled()))
                         c = new Color(1, 0.39f, 0.39f, 1);
                     else
                         c = new Color(Color.WHITE);

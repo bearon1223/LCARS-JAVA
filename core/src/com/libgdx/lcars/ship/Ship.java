@@ -30,7 +30,6 @@ public class Ship {
     public Vector3 coordinates = new Vector3(1, 50, 50);
 
     // only for AI ships
-    // private Vector3 playerLocation = new Vector3(1, 50, 50);
     private Vector3 randomCoordinates = new Vector3(1, 1, 1);
 
     private boolean isPlayer = false;
@@ -74,8 +73,10 @@ public class Ship {
             if (mining.getActive()) {
                 mining.minePlanet(
                         s[(int) convertIndexToVector(sectorCoords.x).x][(int) convertIndexToVector(sectorCoords.x).y]
-                                .getSystem((int) sectorCoords.z).getPlanet((int) coordinates.x));
+                                .getSystem((int) sectorCoords.y).getPlanet((int) coordinates.x));
             }
+            s[(int) convertIndexToVector(sectorCoords.x).x][(int) convertIndexToVector(sectorCoords.x).y]
+                    .getSystem((int) sectorCoords.y).getPlanet((int) coordinates.x).update();
         } else {
             ai();
         }
@@ -133,31 +134,27 @@ public class Ship {
     }
 
     // public boolean isPlayerHere() {
-    //     return (playerLocation.x == coordinates.x);
+    // return (playerLocation.x == coordinates.x);
     // }
 
     // public void setPlayerLoc(Vector3 playerLoc) {
-    //     playerLocation = new Vector3(playerLoc);
+    // playerLocation = new Vector3(playerLoc);
     // }
 
     public void ai() {
-        // Planet, X, Y
         float speed = 5;
-        // System.out.println("In AI");
         if (!isAtCoords(randomCoordinates)) {
-                if (coordinates.y < randomCoordinates.y)
-                    coordinates.y += speed * Gdx.graphics.getDeltaTime();
-                if (coordinates.y > randomCoordinates.y)
-                    coordinates.y -= speed * Gdx.graphics.getDeltaTime();
-                // float slope = MathUtils.clamp(coordinates.z - randomCoordinates.z, 1, 50)
-                // / MathUtils.clamp(coordinates.y - randomCoordinates.y, 5, 100);
-                if (coordinates.z < randomCoordinates.z)
-                    coordinates.z += speed * Gdx.graphics.getDeltaTime();
-                if (coordinates.z > randomCoordinates.z)
-                    coordinates.z -= speed * Gdx.graphics.getDeltaTime();
+            if (coordinates.y < randomCoordinates.y)
+                coordinates.y += speed * Gdx.graphics.getDeltaTime();
+            if (coordinates.y > randomCoordinates.y)
+                coordinates.y -= speed * Gdx.graphics.getDeltaTime();
+            if (coordinates.z < randomCoordinates.z)
+                coordinates.z += speed * Gdx.graphics.getDeltaTime();
+            if (coordinates.z > randomCoordinates.z)
+                coordinates.z -= speed * Gdx.graphics.getDeltaTime();
         } else {
-            // System.out.println("within is not working at all :(");
-            if(!isAttacking) randomCoordinates = new Vector3(1, MathUtils.random(0, 100), MathUtils.random(0, 100));
+            if (!isAttacking)
+                randomCoordinates = new Vector3(1, MathUtils.random(0, 100), MathUtils.random(0, 100));
         }
     }
 }

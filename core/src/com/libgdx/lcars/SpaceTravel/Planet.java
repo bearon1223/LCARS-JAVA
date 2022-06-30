@@ -106,20 +106,16 @@ public class Planet {
 
         renderer.ellipse((tDloc.x + tDsize.x / 2) - (size * 2), yCoord - (size * 2), size * 4, size * 4);
 
-        // fill(255);
-        // mapEllipse(map(shipTest.loc.y, 0, 100, tDloc.x, tDloc.x+tDsize.x),
-        // map(shipTest.loc.z, 0, 100, tDloc.y, tDloc.y+tDsize.y), 5, 5);
-        // mapEllipse(map(shipTest.targetCoords.y, 0, 100, tDloc.x, tDloc.x+tDsize.x),
-        // map(shipTest.targetCoords.z, 0, 100, tDloc.y, tDloc.y+tDsize.y), 5, 5);
         if (ship != null) {
             renderer.setColor(Color.WHITE);
             renderer.circle(tDloc.x+map(0, 100, 0, tDsize.x, ship.coordinates.y), tDloc.y+map(0, 100, 0, tDsize.y, ship.coordinates.z), 5);
             ship.update();
         }
-        // fill(50, 50, 255);
-        // if (shipCoordinates.x == id) mapEllipse(map(shipCoordinates.y, 0, 100,
-        // tDloc.x, tDloc.x+tDsize.x), map(shipCoordinates.z, 0, 100, tDloc.y,
-        // tDloc.y+tDsize.y), 5, 5);
+
+        if(playerShip.coordinates.x == id) {
+            renderer.setColor(Color.WHITE);
+            renderer.circle(tDloc.x+map(0, 100, 0, tDsize.x, playerShip.coordinates.y), tDloc.y+map(0, 100, 0, tDsize.y, playerShip.coordinates.z), 5);
+        }
     }
 
     public int getID() {
@@ -127,10 +123,8 @@ public class Planet {
     }
 
     public void update() {
-        // shipTest.update();
-        // if (shipTest.isAtCoords(shipTest.targetCoords)) shipTest.targetCoords =
-        // shipTest.pickPoint(id, false);
-        // shipTest.goToCoords(shipTest.targetCoords);
-        // System.out.println("isUpdating");
+        if (ship != null) {
+            ship.update();
+        }
     }
 }

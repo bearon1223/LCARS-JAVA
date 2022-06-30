@@ -37,7 +37,6 @@ public class Sector {
     }
 
     public void renderTiny(MyShapeRenderer renderer, Starchart t, Vector2 offset) {
-        // println(arrayID);
         for (int i = 0; i < systemAmount; i++) {
             s[i].renderSystemTiny(renderer, t, offset, arrayID);
         }
