@@ -5,13 +5,18 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.libgdx.lcars.longVector;
+import com.libgdx.lcars.SpaceTravel.Planet;
 import com.libgdx.lcars.SpaceTravel.Sector;
+import com.libgdx.lcars.SpaceTravel.Starsystem;
 import com.libgdx.lcars.ship.cargosystem.Cargo;
 import com.libgdx.lcars.ship.subsystems.Impulse;
 import com.libgdx.lcars.ship.subsystems.MiningSystem;
 import com.libgdx.lcars.ship.subsystems.Power;
 import com.libgdx.lcars.ship.subsystems.Shields;
 import com.libgdx.lcars.ship.subsystems.Warpcore;
+
+import static com.libgdx.lcars.Useful.convertIndexToVector;
+import static com.libgdx.lcars.Useful.within;
 
 public class Ship {
     protected Power power;
@@ -22,7 +27,7 @@ public class Ship {
     protected MiningSystem mining;
     private longVector limits;
 
-    public Sector[][] s;
+    private Sector[][] s;
 
     // Sector, SystemID, PlanetID
     public Vector3 sectorCoords = new Vector3(0, 0, 1);
@@ -58,7 +63,50 @@ public class Ship {
                     index++;
                 }
             }
+            mining.setMiningViewer(getPlanet());
         }
+    }
+
+    public Sector[][] getSector(){
+        return s;
+    }
+
+    public Sector getSector(int sectorID){
+        Vector3 i = convertIndexToVector(sectorID);
+        return s[(int)i.x][(int)i.y];
+    }
+
+    public Sector getCurrentSector(){
+        Vector3 i = convertIndexToVector(sectorCoords.x);
+        return s[(int)i.x][(int)i.y];
+    }
+
+    public Planet getPlanet(){
+        Vector3 i = convertIndexToVector(sectorCoords.x);
+        return s[(int)i.x][(int)i.y].getSystem((int)sectorCoords.y).getPlanet((int)sectorCoords.z);
+    }
+
+    public Planet getPlanet(int sectorID, int SystemID, int PlanetID){
+        Vector3 i = convertIndexToVector(sectorID);
+        return s[(int)i.x][(int)i.y].getSystem(SystemID).getPlanet(PlanetID);
+    }
+
+    public Planet getPlanet(int PlanetID){
+        return getSystem().getPlanet(PlanetID);
+    }
+
+    public Starsystem getSystem(){
+        Vector3 i = convertIndexToVector(sectorCoords.x);
+        return s[(int)i.x][(int)i.y].getSystem((int)sectorCoords.y);
+    }
+
+    public Starsystem getSystem(int sectorID, int SystemID){
+        Vector3 i = convertIndexToVector(sectorID);
+        return s[(int)i.x][(int)i.y].getSystem(SystemID);
+    }
+
+    public Starsystem getSystem(Sector s, int SystemID){
+        return s.getSystem(SystemID);
     }
 
     public Cargo getCargo() {
@@ -108,25 +156,6 @@ public class Ship {
             r[i] = new Vector2(MathUtils.random(limits.x, limits.y), MathUtils.random(limits.z, limits.w));
         }
         return r;
-    }
-
-    private Vector3 convertIndexToVector(float index) {
-        Vector3 finalConversion = new Vector3(69, 69, 69);
-        if (index <= 4)
-            finalConversion = new Vector3(index, 0, 0);
-        else if (index <= 9)
-            finalConversion = new Vector3(index - 5, 1, 0);
-        else if (index <= 14)
-            finalConversion = new Vector3(index - 10, 2, 0);
-        else if (index <= 19)
-            finalConversion = new Vector3(index - 15, 3, 0);
-        else
-            System.out.println("ur dum");
-        return finalConversion;
-    }
-
-    private boolean within(Vector2 vector, float x, float y, float d) {
-        return (Math.abs(Math.hypot((vector.x) - (x), (vector.y) - (y))) <= d / 2);
     }
 
     private boolean isAtCoords(Vector3 coords) {

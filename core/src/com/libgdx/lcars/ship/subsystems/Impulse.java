@@ -52,6 +52,8 @@ public class Impulse extends Subsystem {
             s.coordinates.x = destination.getID();
             s.isTravelingImpulse = false;
             tD.selected.z = destination.getID();
+
+            s.getMining().setMiningViewer(destination);
             // if(destination.hasShip) destination.ship = new Ship(false);
         }
     }

@@ -50,6 +50,8 @@ public class Warpcore extends Subsystem {
             s.coordinates.x = 1;
             tD.currentSector = destination.arrayID;
             s.isTravelingWarp = false;
+            
+            s.getMining().setMiningViewer(destinationS.getPlanet(1));
 
             // if(destinationS.getPlanet((int)s.coordinates.x).hasShip) destinationS.getPlanet((int) s.coordinates.x).ship = new Ship(false);
         }

@@ -12,18 +12,21 @@ import com.libgdx.lcars.MyShapeRenderer;
 import com.libgdx.lcars.Panel;
 import com.libgdx.lcars.SpaceTravel.Sector;
 
+import static com.libgdx.lcars.Useful.convertIndexToVector;
+import static com.libgdx.lcars.Useful.within;
+
 public class Starchart extends Readout {
     final Vector2 imageSize = new Vector2(228, 173);
 
     private Sector[][] s;
 
     public Vector2 targetingPointLoc;
-    public Vector3 selected;
+    public Vector3 selected; // X: Sector Y: System Z: Planet
     public Vector2 currentSector = new Vector2(0, 0);
     public Vector2 selectedSector = new Vector2(0, 0);
 
     private Texture tacticalDisplaySurroundings;
-
+    private boolean isMouseMode = false;
 
     public boolean isClicked = false;
 
@@ -35,83 +38,102 @@ public class Starchart extends Readout {
         tacticalDisplaySurroundings = new Texture(Gdx.files.internal("Tactical Display Surroundings.png"));
     }
 
-    private boolean within(Readout r, Vector2 vector, float x, float y, float d) {
-        return (Math.abs(Math.hypot((vector.x + r.x) - (x), (vector.y + r.y) - (y))) <= d / 2);
+    public void setIsMouseMode(boolean value) {
+        isMouseMode = value;
     }
 
-    private boolean within(Readout r, Vector2 vector, float x, float y, float w, float h) {
-        if (vector.x + r.x > x && vector.y + r.y > y && vector.x + r.x < x + w && vector.y + r.y < y + h)
-            return true;
-        return false;
-    }
+    // Test if the given value is within a given distance to a given position. Some
+    // require a readout for coordinate system conversions.
+    
 
-    private boolean within(Vector2 vector, float x, float y, float w, float h) {
-        return (vector.x > x && vector.y > y && vector.x < x + w && vector.y < y + h);
-    }
-
-    public Vector3 convertIndexToVector(float index) {
-        Vector3 finalConversion = new Vector3(69, 69, 69);
-        if (index <= 4)
-            finalConversion = new Vector3(index, 0, 0);
-        else if (index <= 9)
-            finalConversion = new Vector3(index - 5, 1, 0);
-        else if (index <= 14)
-            finalConversion = new Vector3(index - 10, 2, 0);
-        else if (index <= 19)
-            finalConversion = new Vector3(index - 15, 3, 0);
-        else
-            System.out.println("ur dum");
-        return finalConversion;
-    }
+    // Convert a single index into a vector.
 
     private void target(MyShapeRenderer shape, float x, float y, float size) {
         shape.rectLine(this.x + (x - size), this.y + (y), this.x + (x + size), this.y + (y), 3,
-                Color.valueOf("#FFAD29FF"), Color.valueOf("#FFAD29FF"));
+                Color.valueOf("#FFAD29FF"), Color.valueOf("#FFAD29FF")); // a cross with an orange collor
         shape.rectLine(this.x + (x), this.y + (y - size), this.x + (x), this.y + (y + size), 3,
-                Color.valueOf("#FFAD29FF"), Color.valueOf("#FFAD29FF"));
+                Color.valueOf("#FFAD29FF"), Color.valueOf("#FFAD29FF")); // a cross with an orange collor
     }
 
     private void systemMap(MyShapeRenderer renderer) {
         float yCoord = y + h / 2;
+        boolean mouseClickBool = false;
+
+        // render the selected system from the sector.
         s[(int) selectedSector.x][(int) selectedSector.y].getSystem((int) Math.floor(selected.y))
                 .renderPlanets(renderer, yCoord);
 
-        if (isClicked && within(this, targetingPointLoc, 450, yCoord, s[(int) selectedSector.x][(int) selectedSector.y]
-                .getSystem((int) Math.floor(selected.y)).getPlanet((int) selected.z).size * 2)) {
-            selected.z = 0;
-        } else if (isClicked
+        // Mouse Input
+        if (Gdx.input.isButtonJustPressed(0) && within(new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()), 450, yCoord,
+                s[(int) selectedSector.x][(int) selectedSector.y]
+                        .getSystem((int) Math.floor(selected.y)).getPlanet((int) selected.z).size * 2)) {
+            selected.z = 0; // Set this as the selected system. if it has the said system.
+            mouseClickBool = true;
+        } else if (Gdx.input.isButtonJustPressed(0) && within(new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()), 490, yCoord,
+                s[(int) selectedSector.x][(int) selectedSector.y]
+                        .getSystem((int) Math.floor(selected.y)).getPlanet((int) selected.z).size * 2)) {
+            selected.z = 1; // Set this as the selected system. if it has the said system.
+            mouseClickBool = true;
+        } else if (Gdx.input.isButtonJustPressed(0) && within(new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()), 540, yCoord,
+                s[(int) selectedSector.x][(int) selectedSector.y]
+                        .getSystem((int) Math.floor(selected.y)).getPlanet((int) selected.z).size * 2)) {
+            selected.z = 2; // Set this as the selected system. if it has the said system.
+            mouseClickBool = true;
+        } else if (Gdx.input.isButtonJustPressed(0) && within(new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()), 590, yCoord,
+                s[(int) selectedSector.x][(int) selectedSector.y]
+                        .getSystem((int) Math.floor(selected.y)).getPlanet((int) selected.z).size * 2)) {
+            selected.z = 3; // Set this as the selected system. if it has the said system.
+            mouseClickBool = true;
+        }
+
+        // Orange Selection Cross Input
+        if (!mouseClickBool && isClicked
+                && within(this, targetingPointLoc, 450, yCoord, s[(int) selectedSector.x][(int) selectedSector.y]
+                        .getSystem((int) Math.floor(selected.y)).getPlanet((int) selected.z).size * 2)) {
+            selected.z = 0; // Set this as the selected system. if it has the said system.
+        } else if (!mouseClickBool && isClicked
                 && within(this, targetingPointLoc, 490, yCoord, s[(int) selectedSector.x][(int) selectedSector.y]
                         .getSystem((int) Math.floor(selected.y)).getPlanet((int) selected.z).size * 2)) {
-            selected.z = 1;
-        } else if (isClicked
+            selected.z = 1; // Set this as the selected system. if it has the said system.
+        } else if (!mouseClickBool && isClicked
                 && within(this, targetingPointLoc, 540, yCoord, s[(int) selectedSector.x][(int) selectedSector.y]
                         .getSystem((int) Math.floor(selected.y)).getPlanet((int) selected.z).size * 2)) {
-            selected.z = 2;
-        } else if (isClicked
+            selected.z = 2; // Set this as the selected system. if it has the said system.
+        } else if (!mouseClickBool && isClicked
                 && within(this, targetingPointLoc, 590, yCoord, s[(int) selectedSector.x][(int) selectedSector.y]
                         .getSystem((int) Math.floor(selected.y)).getPlanet((int) selected.z).size * 2)) {
-            selected.z = 3;
+            selected.z = 3; // Set this as the selected system. if it has the said system.
         }
     }
 
     private void systemSelect(MyShapeRenderer renderer, Vector2 index) {
         displayText("Selected Sector: " + Math.floor(selected.x + 1) + ", System: " + Math.floor(selected.y + 1), 30, h,
                 0.7f);
+        // create a dummy sector at the selected index for ease of access
         Sector sector = s[(int) index.x][(int) index.y];
         sector.renderSector(renderer);
+        boolean mouseClickBool = false;
         for (int i = 0; i < sector.systemAmount; i++) {
-            if (isClicked && within(this, targetingPointLoc, sector.getSystem(i).loc.x, sector.getSystem(i).loc.y,
-                    sector.getSystem(i).r * 2)) {
+            if (!isClicked && Gdx.input.isButtonJustPressed(0)
+                    && within(new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()),
+                            sector.getSystem(i).loc.x, sector.getSystem(i).loc.y, sector.getSystem(i).r * 2)) {
+                selected.y = i;
+                mouseClickBool = true;
+                isMouseMode = true;
+            }
+
+            if (!mouseClickBool && isClicked
+                    && within(this, targetingPointLoc, sector.getSystem(i).loc.x, sector.getSystem(i).loc.y,
+                            sector.getSystem(i).r * 2)) {
                 selected.y = i;
             }
-            // displayText("System: "+ (i + 1), sector.getSystem(i).loc.x-this.x,
-            // sector.getSystem(i).loc.y-this.y, 0.5f);
         }
     }
 
     private void sectorMap(MyShapeRenderer renderer) {
         int amount = 5;
         int index = 0;
+        // draw sector lines
         for (int i = 0; i <= amount; i++) {
             for (int j = 0; j < amount; j++) {
                 // stroke(150);
@@ -133,31 +155,50 @@ public class Starchart extends Readout {
 
         renderer.setColor(0, 0, 0, 0);
 
-        int with = 0;
-        Vector2 temp = new Vector2(0, 0);
+        // render system preview in each sector and do selection logic
+        int selectedSectorIndex = 0;
+        Vector2 selectedSectorID = new Vector2(0, 0);
+        boolean mouseClickBool = false;
         for (int j = 0; j < amount - 1; j++) {
             for (int i = 0; i < amount; i++) {
                 Vector2 offset = new Vector2(40, 40);
-                s[i][j].renderTiny(renderer, this, new Vector2(40, 40));
-                if (within(this, targetingPointLoc, x + i * offset.x, y + j * offset.y, offset.x, offset.y)) {
-                    with = index;
-                    temp = new Vector2(i, j);
+                s[i][j].renderTiny(renderer, this, new Vector2(40, 40)); // tell system to render a tiny version of
+                                                                         // itself
+                // Do the same thing as below but with a mouse to click on the sector.
+                if (!isClicked && Gdx.input.isButtonJustPressed(0)
+                        && within(new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()),
+                                x + i * offset.x, y + j * offset.y, offset.x, offset.y)) {
+                    selectedSectorIndex = index;
+                    selectedSectorID = new Vector2(i, j);
+                    mouseClickBool = true;
+                    isMouseMode = true;
+                }
+
+                // if targeting point is within the sector, choose the sector.
+                if (within(this, targetingPointLoc, x + i * offset.x, y + j * offset.y, offset.x, offset.y)
+                        && !mouseClickBool) {
+                    selectedSectorIndex = index; // I have a feeling that this index is just for debug perposes
+                    selectedSectorID = new Vector2(i, j);
                 }
                 index++;
             }
         }
-        if (isClicked) {
-            selected.x = with;
-            selectedSector = temp;
+        if (isClicked || mouseClickBool) {
+            // if the select button is pressed, set the sector the targeting point is over
+            // as the selected sector.
+            selected.x = selectedSectorIndex;
+            selectedSector = selectedSectorID;
             selected.y = 0;
             selected.z = 0;
-            System.out.println("Conversion Function: " + convertIndexToVector(with));
-            System.out.println("index: " + with);
-            System.out.println("Actual: " + temp);
+            // print debug information of the convertIndextoVector function
+            System.out.println("Conversion Function: " +  convertIndexToVector(selectedSectorIndex));
+            System.out.println("index: " + selectedSectorIndex);
+            System.out.println("Actual: " + selectedSectorID);
         }
     }
 
     protected void changePointPos(Vector2 direction) {
+        // If targeting point is within the readout, move the targeting point
         if (within(new Vector2(targetingPointLoc.x + direction.x, targetingPointLoc.y + direction.y), 0f, 0f,
                 imageSize.x,
                 imageSize.y)) {
@@ -168,6 +209,7 @@ public class Starchart extends Readout {
 
     @Override
     public void batchRenderer(SpriteBatch batch, BitmapFont font, boolean pMousePressed) {
+        // Batch = shape
         super.batchRenderer(batch, font, pMousePressed);
         image(tacticalDisplaySurroundings, x, y, w, h);
         int amount = 5;
@@ -202,6 +244,7 @@ public class Starchart extends Readout {
     public void shapeRenderer(MyShapeRenderer renderer, Sound click, Panel selectionPanel, boolean pMousePressed) {
         if (selectionPanel.Button(click, new Vector2(5, 0), pMousePressed)) {
             isClicked = true;
+            isMouseMode = false;
         }
         switch (scene) {
             case 0:
@@ -232,7 +275,7 @@ public class Starchart extends Readout {
             default:
                 rect(0, 0, w, h);
         }
-        if (scene != 3)
+        if (scene != 3 && !isMouseMode)
             target(renderer, targetingPointLoc.x, targetingPointLoc.y, 5);
 
         rect(Color.BLACK, -2, -2, 12, 175);

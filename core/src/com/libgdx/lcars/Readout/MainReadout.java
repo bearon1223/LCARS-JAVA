@@ -13,6 +13,8 @@ import com.libgdx.lcars.Panel;
 import com.libgdx.lcars.TextArrays;
 import com.libgdx.lcars.ship.Ship;
 
+import static com.libgdx.lcars.Useful.convertIndexToVector;
+
 public class MainReadout extends Readout {
     private Texture standby;
 
@@ -50,7 +52,7 @@ public class MainReadout extends Readout {
         engMainPanel = new Panel(this, 160, h - 100, 450, 100, 4, 1).addNames(TextArrays.engMainPanelNames);
         engSidePanel = new Panel(this, w - 125, 10, 130, h - 110, 1, 5).addNames(TextArrays.engSidePanelNames);
 
-        chart = new Starchart(s.s, x + 10, h - 310);
+        chart = new Starchart(s.getSector(), x + 10, h - 310);
 
         navSystemsPanel = new Panel(this, 340, h - 150 - 150, 150, 150, 3, 6);
         navCenterPanel = new Panel(this, 243, h - 120 - 211, 95, 211, 1, 4).addNames(TextArrays.navCenterPanelNames);
@@ -153,27 +155,34 @@ public class MainReadout extends Readout {
                 navBottomPanel.textRenderer(batch, font);
 
                 chart.batchRenderer(batch, font, pMousePressed);
+                // Move the selector cross
                 switch (circleButton(batch, click, 10, h - 110, 100, 100, pMousePressed)) {
                     case 5:
                         chart.changePointPos(new Vector2(0, -increment));
+                        chart.setIsMouseMode(false);
                         break;
                     case 6:
                         chart.changePointPos(new Vector2(0, increment));
+                        chart.setIsMouseMode(false);
                         break;
                     case 7:
                         chart.changePointPos(new Vector2(-increment, 0));
+                        chart.setIsMouseMode(false);
                         break;
                     case 8:
                         chart.changePointPos(new Vector2(increment, 0));
+                        chart.setIsMouseMode(false);
                         break;
                 }
 
+                // determine if the distance is using the warp core or the impulse drive or we are at the destination
                 if (s.getWarpCore().travelDistance - s.getWarpCore().traveledDistance != 0) {
                     Color c = new Color(Color.WHITE);
+                    // Alternate colors
                     if (Math.floor(System.currentTimeMillis() / 1000) % 2 == 0 && (!s.getWarpCore().isEnabled()))
                         c = new Color(1, 0.39f, 0.39f, 1);
-                    else
-                        c = new Color(Color.WHITE);
+                    
+                    // If the warpcore is not enabled, say so, else show the distance remaining in Light years
                     if (!s.getWarpCore().isEnabled())
                         displayText(c, "Error: No Active Warp Core", 10, h - 130, 0.7f);
                     else if (s.getWarpCore().travelDistance - s.getWarpCore().traveledDistance != 0)
@@ -183,10 +192,11 @@ public class MainReadout extends Readout {
                                 + "LY", 10, h - 130, 0.7f);
                 } else if (s.getImpulse().travelDistance - s.getWarpCore().traveledDistance != 0) {
                     Color c = new Color(Color.WHITE);
+                    // alternate colors
                     if (Math.floor(System.currentTimeMillis() / 1000) % 2 == 0 && (!s.getImpulse().isEnabled()))
                         c = new Color(1, 0.39f, 0.39f, 1);
-                    else
-                        c = new Color(Color.WHITE);
+                    
+                    // If the impulse drive is not enabled, say so. Else show the distance remaining in AU (bruh ur au is probs not accurate lol)
                     if (!s.getImpulse().isEnabled())
                         displayText(c, "Error: No Active Impulse Engines", 10, h - 130, 0.7f);
                     else if (s.getImpulse().travelDistance - s.getWarpCore().traveledDistance != 0)
@@ -207,8 +217,8 @@ public class MainReadout extends Readout {
                     chart.scene = 3;
                 } else if (navTopPanel.Button(click, new Vector2(4, 0), pMousePressed)) {
                     chart.selected = new Vector3(s.sectorCoords);
-                    chart.selectedSector = new Vector2(chart.convertIndexToVector(s.sectorCoords.x).x,
-                            chart.convertIndexToVector(s.sectorCoords.x).y);
+                    chart.selectedSector = new Vector2(convertIndexToVector(s.sectorCoords.x).x,
+                            convertIndexToVector(s.sectorCoords.x).y);
                     chart.scene = 3;
                 }
 
