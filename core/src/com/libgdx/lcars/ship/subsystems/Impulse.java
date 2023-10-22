@@ -18,7 +18,7 @@ public class Impulse extends Subsystem {
     public float traveledDistance = 0;
 
     public Impulse(Ship ship, Cargo cargo, float startingPower, float startingHP) {
-        super(startingPower, startingHP);
+        super(startingPower, startingHP, 0.08f, 0.04f);
         this.s = ship;
         this.cargo = cargo;
         fuel = cargo.getImpulseFuel();

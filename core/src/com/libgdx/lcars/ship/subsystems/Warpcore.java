@@ -19,7 +19,7 @@ public class Warpcore extends Subsystem {
     public float traveledDistance = 0;
 
     public Warpcore(Ship ship, Cargo cargo, float startingPower, float startingHP) {
-        super(startingPower, startingHP);
+        super(startingPower, startingHP, -0.1f, 0.15f);
         this.s = ship;
         this.cargo = cargo;
         fuel = cargo.getWarpFuel();

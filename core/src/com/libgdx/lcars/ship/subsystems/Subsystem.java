@@ -3,9 +3,22 @@ package com.libgdx.lcars.ship.subsystems;
 public class Subsystem {
     float power, hp;
     boolean isEnabled = true;
-    Subsystem(float startingPower, float startingHP){
+    float drawRate = -0.1f;
+    float powerRate = 0.15f;
+
+    Subsystem(float startingPower, float startingHP, float drawRate, float powerRate){
         this.power = startingPower;
         this.hp = startingHP;
+        this.drawRate = drawRate;
+        this.powerRate = powerRate;
+    }
+
+    public float getDrawRate() {
+        return drawRate;
+    }
+
+    public float getPowerRate() {
+        return powerRate;
     }
 
     public boolean isEnabled() {

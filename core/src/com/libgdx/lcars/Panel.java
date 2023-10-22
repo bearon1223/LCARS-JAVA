@@ -101,12 +101,13 @@ public class Panel {
 
     public void textRenderer(Readout r, float scale) {
         Vector2 rectSize = new Vector2((size.x) / panelCount.x, (size.y) / panelCount.y);
-        float offset = 12;
         for (int i = 0; i < panelCount.x; i++) {
             for (int j = 0; j < panelCount.y; j++) {
+                float offset = names[(int) ((panelCount.y - 1) - j)][i].length() < (rectSize.x-10)/7 ? 17 : 30;
+                
                 r.displayText(Color.BLACK, names[(int) ((panelCount.y - 1) - j)][i], (float) (x + i * rectSize.x) - r.x,
                         (float) (y + j * rectSize.y + offset) - r.y,
-                        rectSize.x - 5, 0, scale);
+                        rectSize.x - 10, 0, scale);
             }
         }
     }

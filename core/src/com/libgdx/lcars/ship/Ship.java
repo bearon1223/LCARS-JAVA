@@ -52,6 +52,9 @@ public class Ship {
         wc = new Warpcore(this, cargo);
         impulse = new Impulse(this, cargo);
         mining = new MiningSystem(this, cargo);
+
+        power = new Power(100);
+
         s = new Sector[5][4];
         int index = 0;
         if (isPlayer) {
@@ -118,6 +121,9 @@ public class Ship {
             wc.update();
             impulse.update();
             cargo.update();
+            power.update(this);
+
+            // Mining subsystem
             if (mining.getActive()) {
                 mining.minePlanet(
                         s[(int) convertIndexToVector(sectorCoords.x).x][(int) convertIndexToVector(sectorCoords.x).y]
@@ -128,6 +134,11 @@ public class Ship {
         } else {
             ai();
         }
+    }
+
+    public void powerDown() {
+        wc.disable();
+        impulse.disable();
     }
 
     public Warpcore getWarpCore() {
