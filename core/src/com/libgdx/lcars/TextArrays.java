@@ -34,7 +34,7 @@ public final class TextArrays {
 
         public static final String[][] mainSideMenuNames = {
                         { "SYSTEM DIRECTORY" },
-                        { "ENGINEERING OVERVIEW" },
+                        { "ENGINEERING" },
                         { "MED DIRECTORY" },
                         { "ANTENNA ARRAY" },
                         { "STELLAR MAPS" },

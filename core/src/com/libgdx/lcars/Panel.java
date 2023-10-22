@@ -87,25 +87,26 @@ public class Panel {
 
     public void textRenderer(SpriteBatch batch, BitmapFont font, float scale) {
         Vector2 rectSize = new Vector2((size.x) / panelCount.x, (size.y) / panelCount.y);
-        float offset = rectSize.y / 1.5f;
         font.getData().setScale(scale);
         for (int i = 0; i < panelCount.x; i++) {
             for (int j = 0; j < panelCount.y; j++) {
+                float offset = names[(int) ((panelCount.y - 1) - j)][i].length() < (rectSize.x-10)/7 ? 17 : 30;
+
                 font.draw(batch, names[(int) ((panelCount.y - 1) - j)][i], (float) x + i * rectSize.x,
                         (float) y + j * rectSize.y + offset,
-                        rectSize.x - 5, 1, true);
+                        rectSize.x - 10, 0, true);
             }
         }
     }
 
     public void textRenderer(Readout r, float scale) {
         Vector2 rectSize = new Vector2((size.x) / panelCount.x, (size.y) / panelCount.y);
-        float offset = rectSize.y / 1.5f;
+        float offset = 12;
         for (int i = 0; i < panelCount.x; i++) {
             for (int j = 0; j < panelCount.y; j++) {
                 r.displayText(Color.BLACK, names[(int) ((panelCount.y - 1) - j)][i], (float) (x + i * rectSize.x) - r.x,
                         (float) (y + j * rectSize.y + offset) - r.y,
-                        rectSize.x - 5, 1, scale);
+                        rectSize.x - 5, 0, scale);
             }
         }
     }

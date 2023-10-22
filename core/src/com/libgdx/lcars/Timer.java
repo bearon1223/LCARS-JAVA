@@ -1,5 +1,7 @@
 package com.libgdx.lcars;
 
+import com.badlogic.gdx.Gdx;
+
 public class Timer {
     private int time = 0, endingTime;
 
@@ -18,13 +20,13 @@ public class Timer {
 
     public float getTime(boolean countDown) {
         if (countDown)
-            return Math.round(endingTime - time / 60);
-        return (float)Math.floor(time / 60);
+            return Math.round(endingTime - time*Gdx.graphics.getDeltaTime());
+        return (float)Math.floor(time*Gdx.graphics.getDeltaTime());
     }
 
     public boolean countTimer() {
         time++;
-        return Math.floor(time / 60) >= endingTime + 1;
+        return Math.floor(time*Gdx.graphics.getDeltaTime()) >= endingTime + 1;
     }
 
 }
