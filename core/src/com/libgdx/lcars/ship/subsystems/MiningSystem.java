@@ -72,22 +72,25 @@ public class MiningSystem {
         mainControlPanel.render(r);
 
         String activeText = active ? "ACTIVE" : "INACTIVE";
-        mainControlPanel.rename("Miner Status: \n" + activeText, 0, 1);
-        mainControlPanel.rename("Mine Speed: " + String.valueOf(mineSpeed) + " items/sec", 0, 2);
+        mainControlPanel.rename("Miner Status: " + activeText, 0, 1);
+        mainControlPanel.rename("Mine Speed: \n" + String.valueOf(mineSpeed) + " items/sec", 0, 2);
         mainControlPanel.textRenderer(r, 1f);
 
         planetResources.render(r);
         String text = items[0] > 0 ? "  Alloys: " + Math.floor(items[0] * 100) / 100 + "L"
-                : "Alloys Deposits have been depleted";
+                : "  Alloys Deposits have been depleted";
         planetResources.rename(text, 0, 0);
         text = items[1] > 0 ? "  Dilithium: " + Math.floor(items[1] * 100) / 100 + "L"
-                : "Dilithium Deposits have been depleted";
+                : "  Dilithium Deposits have been depleted";
         planetResources.rename(text, 0, 1);
         text = items[2] > 0 ? "  Deuterium: " + Math.floor(items[2] * 100) / 100 + "L"
-                : "Deuterium Deposits have been depleted";
+                : "  Deuterium Deposits have been depleted";
         planetResources.rename(text, 0, 2);
 
         planetResources.textRenderer(r, 1f, -1);
+
+        if(items[0] <= 0 && items[1] <= 0 && items[2] <= 0)
+            setActive(false);
 
         if (mainControlPanel.Button(click, new Vector2(0, 3), pMousePressed)) {
             toggleActive();

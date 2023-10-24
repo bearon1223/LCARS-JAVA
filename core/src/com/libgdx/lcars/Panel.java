@@ -103,7 +103,7 @@ public class Panel {
         Vector2 rectSize = new Vector2((size.x) / panelCount.x, (size.y) / panelCount.y);
         for (int i = 0; i < panelCount.x; i++) {
             for (int j = 0; j < panelCount.y; j++) {
-                float offset = names[(int) ((panelCount.y - 1) - j)][i].length() < (rectSize.x-10)/7 ? 17 : 30;
+                float offset = names[(int) ((panelCount.y - 1) - j)][i].length() < (rectSize.x-5)/7 ? Math.min(17, rectSize.y/2) : Math.min(30, rectSize.y/2);
                 
                 r.displayText(Color.BLACK, names[(int) ((panelCount.y - 1) - j)][i], (float) (x + i * rectSize.x) - r.x,
                         (float) (y + j * rectSize.y + offset) - r.y,
@@ -116,7 +116,7 @@ public class Panel {
         Vector2 rectSize = new Vector2((size.x) / panelCount.x, (size.y) / panelCount.y);
         for (int i = 0; i < panelCount.x; i++) {
             for (int j = 0; j < panelCount.y; j++) {
-                float offset = names[(int) ((panelCount.y - 1) - j)][i].length() < (rectSize.x-10)/7 ? 17 : 30;
+                float offset = names[(int) ((panelCount.y - 1) - j)][i].length() < (rectSize.x-5)/7 ? Math.min(17, rectSize.y/2) : Math.min(30, rectSize.y/2);
                 
                 r.displayText(Color.BLACK, names[(int) ((panelCount.y - 1) - j)][i], (float) (x + i * rectSize.x) - r.x,
                         (float) (y + j * rectSize.y + offset) - r.y,

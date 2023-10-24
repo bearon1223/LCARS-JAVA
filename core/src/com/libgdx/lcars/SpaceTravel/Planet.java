@@ -31,9 +31,9 @@ public class Planet {
             ship = new Ship(false);
         }
         playerShip = s;
-        planetAlloys = new Alloys((int) (Math.floor(MathUtils.random(300, 400))));
-        dilithium = new WarpFuel((int) (Math.floor(MathUtils.random(50, 150))));
-        deuterium = new ImpulseFuel((int) (Math.floor(MathUtils.random(100, 300))));
+        planetAlloys = new Alloys((int) (Math.floor(MathUtils.random(100, 300))));
+        dilithium = new WarpFuel((int) (Math.floor(MathUtils.random(10, 50))));
+        deuterium = new ImpulseFuel((int) (Math.floor(MathUtils.random(20, 80))));
     }
 
     public Planet(Ship s, int id) {
