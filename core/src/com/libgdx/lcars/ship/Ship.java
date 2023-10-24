@@ -141,6 +141,10 @@ public class Ship {
         impulse.disable();
     }
 
+    public Power getPower() {
+        return power;
+    }
+
     public Warpcore getWarpCore() {
         return wc;
     }

@@ -137,6 +137,7 @@ public class Readout {
             font.getData().setScale(text.scale);
             font.setColor(text.c);
             font.draw(batch, text.txt, text.x, text.y, text.w, text.hlign, true);
+            font.setColor(Color.BLACK);
         }
         // System.out.println(textHolder.size);
         textureHolder = new Array<TextureHolder>();

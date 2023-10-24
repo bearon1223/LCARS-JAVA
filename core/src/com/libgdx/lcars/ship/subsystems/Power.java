@@ -1,6 +1,8 @@
 package com.libgdx.lcars.ship.subsystems;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.libgdx.lcars.Readout.Readout;
 import com.libgdx.lcars.ship.Ship;
 
 public class Power extends Subsystem {
@@ -31,5 +33,18 @@ public class Power extends Subsystem {
         if(power < 0){
             s.powerDown();
         }
+    }
+
+    public void textRender(Readout r, float x, float y){
+        r.displayText(Color.WHITE, "Power Supply", x, y+220);
+    }
+
+    public void render(Readout r, float x, float y){
+        float powerPercent = power/100f;
+        Color empty = new Color(0.4f, 0.4f, 1f, 1f);
+        Color powered = new Color(0.7f, 0.7f, 1f, 1f);
+
+        r.rect(empty, x, y, 105, 200);
+        r.rect(powered, x, y, 105, 200*powerPercent);
     }
 }

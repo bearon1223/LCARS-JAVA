@@ -106,9 +106,12 @@ public class MainScreen implements Screen {
                         app.setScreen(new LoginScene(app));
                         dispose();
                 }
+                if (smallSettingsPanel.Button(app.click, new Vector2(1, 2), pMousePressed)){
+                        tReadout.toggleDebug();
+                }
                 if (smallSettingsPanel.Button(app.click, new Vector2(0, 0), pMousePressed)) {
-                        System.exit(0);
                         dispose();
+                        System.exit(0);
                 }
 
                 mainSideMenu.clickArray(app.click, mReadout, TextArrays.mainSideMenuClickID, pMousePressed);
@@ -117,11 +120,11 @@ public class MainScreen implements Screen {
                 app.playerShip.getWarpCore().travel(mReadout.getStarchart(), app.playerShip.getCurrentSector(),
                                 app.playerShip.getSector((int) selected.x), app.playerShip.getSystem(),
                                 app.playerShip.getSystem((int) selected.x, (int) selected.y),
-                                app.playerShip.isTravelingWarp, mReadout.selectedSpeed);
+                                app.playerShip.isTravelingWarp, mReadout.getSelectedSpeed());
 
                 app.playerShip.getImpulse().travel(mReadout.getStarchart(), app.playerShip.getPlanet(),
                                 app.playerShip.getPlanet((int) mReadout.getStarchart().selected.z),
-                                app.playerShip.isTravelingImpulse, mReadout.selectedSpeed);
+                                app.playerShip.isTravelingImpulse, mReadout.getSelectedSpeed());
 
                 pMousePressed = Gdx.input.isTouched();
         }

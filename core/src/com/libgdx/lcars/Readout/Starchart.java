@@ -59,6 +59,9 @@ public class Starchart extends Readout {
         float yCoord = y + h / 2;
         boolean mouseClickBool = false;
 
+        // orbital path
+        // TODO: Add Orbital Path Arcs
+
         // render the selected system from the sector.
         s[(int) selectedSector.x][(int) selectedSector.y].getSystem((int) Math.floor(selected.y))
                 .renderPlanets(renderer, yCoord);
