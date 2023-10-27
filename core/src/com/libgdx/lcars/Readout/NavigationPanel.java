@@ -55,6 +55,7 @@ public class NavigationPanel extends Readout {
 
     @Override
     public void batchRenderer(SpriteBatch batch, BitmapFont font, boolean pMousePressed) {
+        super.batchRenderer(batch, font, pMousePressed);
         // Navigational Panel
         int increment = 5;
         font.setColor(Color.BLACK);

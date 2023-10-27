@@ -19,7 +19,7 @@ public class Readout {
 
     private Texture circleButton;
     // private Texture test;
-    private Array<RectHolder> rectCoordinates;
+    private Array<RectHolder> rectHolder;
     private Array<TextureHolder> textureHolder;
     private Array<TextHolder> textHolder;
 
@@ -31,7 +31,7 @@ public class Readout {
         scene = 0;
         circleButton = new Texture(Gdx.files.internal("Circle Button.png"));
         // test = new Texture(Gdx.files.internal("Tactical Display Template.png"));
-        rectCoordinates = new Array<RectHolder>();
+        rectHolder = new Array<RectHolder>();
         textureHolder = new Array<TextureHolder>();
         textHolder = new Array<TextHolder>();
     }
@@ -49,7 +49,7 @@ public class Readout {
     }
 
     public void rect(Color c, float x, float y, float w, float h, float r) {
-        rectCoordinates.add(new RectHolder(c, this.x + x, this.y + y, w, h, clamp(r, 0, h)));
+        rectHolder.add(new RectHolder(c, this.x + x, this.y + y, w, h, clamp(r, 0, h)));
     }
 
     public void image(Texture texture, float x, float y, float w, float h) {
@@ -122,11 +122,11 @@ public class Readout {
     }
 
     public void shapeRenderer(MyShapeRenderer renderer) {
-        for (RectHolder coordinates : rectCoordinates) {
-            renderer.setColor(coordinates.c);
-            renderer.roundedRect(coordinates.x, coordinates.y, coordinates.z, coordinates.w, coordinates.h);
+        for (RectHolder rect : rectHolder) {
+            renderer.setColor(rect.c);
+            renderer.roundedRect(rect.x, rect.y, rect.z, rect.w, rect.h);
         }
-        rectCoordinates = new Array<RectHolder>();
+        rectHolder = new Array<RectHolder>();
     }
 
     public void batchRenderer(SpriteBatch batch, BitmapFont font, boolean pMousePressed) {

@@ -237,9 +237,11 @@ public class Starchart extends Readout {
                 break;
             case 1:
                 Sector sector = s[(int) selectedSector.x][(int) selectedSector.y];
+                font.setColor(Color.WHITE);
                 for (int i = 0; i < sector.systemAmount; i++) {
                     font.draw(batch, "System: " + (i + 1), sector.getSystem(i).loc.x, sector.getSystem(i).loc.y);
                 }
+                font.setColor(Color.BLACK);
                 break;
         }
     }

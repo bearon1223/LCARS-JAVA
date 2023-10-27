@@ -19,12 +19,18 @@ public class Power extends Subsystem {
         //TODO: Take power from this power subsystem to power the other systems and add power to this subsystem from the WC.
         // If the warpcore is enabled, take power from the power subsystem.
         if(s.getWarpCore().isEnabled()){
-            power += s.getWarpCore().getDrawRate() * Gdx.graphics.getDeltaTime();
+            if(s.isTravelingWarp)
+                power += s.getWarpCore().getInUsePowerRate() * Gdx.graphics.getDeltaTime(); 
+            else
+                power += s.getWarpCore().getDrawRate() * Gdx.graphics.getDeltaTime();
             power += s.getWarpCore().getPowerRate() * Gdx.graphics.getDeltaTime();
         }
 
         if(s.getImpulse().isEnabled()){
-            power += s.getImpulse().getDrawRate() * Gdx.graphics.getDeltaTime();
+            if(s.isTravelingImpulse)
+                power += s.getImpulse().getInUsePowerRate() * Gdx.graphics.getDeltaTime(); 
+            else
+                power += s.getImpulse().getDrawRate() * Gdx.graphics.getDeltaTime();
             power += s.getImpulse().getPowerRate() * Gdx.graphics.getDeltaTime();
         } else {
             power += s.getImpulse().getPowerRate() * Gdx.graphics.getDeltaTime();

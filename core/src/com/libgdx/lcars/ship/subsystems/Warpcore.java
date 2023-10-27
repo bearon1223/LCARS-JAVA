@@ -23,6 +23,7 @@ public class Warpcore extends Subsystem {
     // Declare public instance variables
     public float travelDistance = 0;     // Represents the total distance to travel
     public float traveledDistance = 0;   // Represents the distance already traveled
+    private float inUseDrawRate = -0.4f;
     private int WCsegmantLight = 0;
 
     // Constructor for the Warpcore class
@@ -34,6 +35,10 @@ public class Warpcore extends Subsystem {
         this.s = ship;
         this.cargo = cargo;
         fuel = cargo.getWarpFuel();
+    }
+
+    public float getInUsePowerRate() {
+        return inUseDrawRate;
     }
 
     // Overloaded constructor for the Warpcore class

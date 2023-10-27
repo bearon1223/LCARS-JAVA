@@ -16,6 +16,7 @@ public class Impulse extends Subsystem {
 
     public float travelDistance = 0;
     public float traveledDistance = 0;
+    private float inUseDrawRate = -0.2f;
 
     public Impulse(Ship ship, Cargo cargo, float startingPower, float startingHP) {
         super(startingPower, startingHP, 0.08f, 0.04f);
@@ -27,6 +28,10 @@ public class Impulse extends Subsystem {
     public Impulse(Ship ship, Cargo cargo) {
         this(ship, cargo, 100, 100);
     }
+    
+    public float getInUsePowerRate() {
+        return inUseDrawRate;
+    }
 
     public void update() {
         if (isEnabled) {
@@ -36,6 +41,7 @@ public class Impulse extends Subsystem {
         if(cargo.getImpulseFuel().getTotalWeight() < 5){
             isEnabled = false;
         }
+        
     }
 
     public void travel(Starchart tD, Planet current, Planet destination, boolean startTravel, float speed) {
