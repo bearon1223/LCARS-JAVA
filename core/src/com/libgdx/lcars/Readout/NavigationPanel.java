@@ -39,7 +39,6 @@ public class NavigationPanel extends Readout {
         navTopPanel = new Panel(this, 120, h - 120, w - 125, 120, 6, 1).addNames(TextArrays.navTopPanelNames);
         navBottomPanel = new Panel(this, 0, h - 330 - (h - 330), w, h - 330, 7, 1)
                 .addNames(TextArrays.navBottomPanelNames);
-        //TODO Auto-generated constructor stub
     }
 
     public void shapeRenderer(MyShapeRenderer shape, Sound click, boolean pMousePressed) {
@@ -126,9 +125,12 @@ public class NavigationPanel extends Readout {
         } else if (navTopPanel.Button(click, new Vector2(3, 0), pMousePressed)) {
             chart.scene = 3;
         } else if (navTopPanel.Button(click, new Vector2(4, 0), pMousePressed)) {
+            // TODO: Fix this? what tf is wrong here tho?
             chart.selected = new Vector3(s.sectorCoords);
-            chart.selectedSector = new Vector2(convertIndexToVector(s.sectorCoords.x).x,
+            Vector2 sectorIndex = new Vector2(convertIndexToVector(s.sectorCoords.x).x,
                     convertIndexToVector(s.sectorCoords.x).y);
+            chart.selectedSector = sectorIndex;
+                    System.out.printf("Converting %f into %f, %f", s.sectorCoords.x, sectorIndex.x, sectorIndex.y);//13,2,2
             chart.scene = 3;
         }
 
@@ -177,5 +179,4 @@ public class NavigationPanel extends Readout {
         }
         circleButton(batch, click, 890 - x, 100, 100, 100, pMousePressed);
     }
-    
 }
