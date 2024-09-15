@@ -20,7 +20,7 @@ public class LCARS extends Game {
 	public void create() {
 		batch = new SpriteBatch();
 		
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/impact.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("impact.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 12;
 		font = generator.generateFont(parameter); // font size 12 pixels

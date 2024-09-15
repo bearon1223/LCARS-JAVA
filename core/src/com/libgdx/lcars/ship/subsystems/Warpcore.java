@@ -16,13 +16,13 @@ import com.badlogic.gdx.graphics.Color;
 // Define the Warpcore class, which extends the Subsystem class
 public class Warpcore extends Subsystem {
     // Declare private instance variables
-    private Cargo cargo;    // Represents the cargo system of the ship
-    private WarpFuel fuel;   // Represents the warp fuel used by the warp core
-    private Ship s;         // Represents the ship
+    private Cargo cargo;        // Represents the cargo system of the ship
+    private WarpFuel fuel;      // Represents the warp fuel used by the warp core
+    private Ship s;             // Represents the ship
 
     // Declare public instance variables
-    public float travelDistance = 0;     // Represents the total distance to travel
-    public float traveledDistance = 0;   // Represents the distance already traveled
+    public float travelDistance = 0;        // Represents the total distance to travel
+    public float traveledDistance = 0;      // Represents the distance already traveled
     private float inUseDrawRate = -0.4f;
     private int WCsegmantLight = 0;
 

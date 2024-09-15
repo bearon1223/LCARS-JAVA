@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("LCARS");
 		config.setWindowedMode(1000, 600);
-		config.setWindowIcon("assets/windowIcon.png");
+		config.setWindowIcon("windowIcon.png");
 		config.useVsync(true);
 		config.setResizable(false);
 		config.setForegroundFPS(60);
